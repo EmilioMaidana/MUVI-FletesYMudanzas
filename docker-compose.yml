@@ -1,19 +1,17 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: vaflete-db
+    container_name: fletea-db
     environment:
-      POSTGRES_DB: vafletedb
-      POSTGRES_USER: vaflete
+      POSTGRES_DB: fleteadb
+      POSTGRES_USER: fletea
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U vaflete -d vafletedb"]
+      test: ["CMD-SHELL", "pg_isready -U fletea -d fleteadb"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -22,20 +20,20 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: vaflete-backend
+    container_name: fletea-backend
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vafletedb
-      SPRING_DATASOURCE_USERNAME: vaflete
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fleteadb
+      SPRING_DATASOURCE_USERNAME: fletea
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
       MERCADOPAGO_ACCESS_TOKEN: ${MERCADOPAGO_ACCESS_TOKEN}
-      MERCADOPAGO_NOTIFICATION_URL: ${MERCADOPAGO_NOTIFICATION_URL:-http://localhost:8080/api/payments/webhook}
-      VAFLETE_FRONTEND_URL: ${VAFLETE_FRONTEND_URL:-http://localhost:4200}
+      MERCADOPAGO_NOTIFICATION_URL: ${MERCADOPAGO_NOTIFICATION_URL:-https://www.fletea.com.ar/api/payments/webhook}
+      FLETEA_FRONTEND_URL: ${FLETEA_FRONTEND_URL:-https://www.fletea.com.ar}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-vaflete2024}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-fletea2024}
       JWT_SECRET: ${JWT_SECRET:-m8K2pL9xQwN4vR7tY1zA3cF6gH0jE5bU}
     depends_on:
       postgres:
@@ -45,7 +43,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    container_name: vaflete-frontend
+    container_name: fletea-frontend
     ports:
       - "4200:80"
     environment:

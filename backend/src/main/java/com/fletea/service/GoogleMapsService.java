@@ -1,4 +1,4 @@
-package com.vaflete.service;
+package com.fletea.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +21,7 @@ public class GoogleMapsService {
     @Value("${google.maps.api-key}")
     private String apiKey;
 
-    @Value("${vaflete.base-address}")
+    @Value("${fletea.base-address}")
     private String baseAddress;
 
     private final RestTemplate restTemplate = new RestTemplate();

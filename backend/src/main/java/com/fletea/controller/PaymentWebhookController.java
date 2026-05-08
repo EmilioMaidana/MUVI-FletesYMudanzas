@@ -1,8 +1,8 @@
-package com.vaflete.controller;
+package com.fletea.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vaflete.service.MercadoPagoService;
-import com.vaflete.service.ReservaService;
+import com.fletea.service.MercadoPagoService;
+import com.fletea.service.ReservaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

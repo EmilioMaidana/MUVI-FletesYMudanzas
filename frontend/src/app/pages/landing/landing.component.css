@@ -7,7 +7,7 @@
 }
 
 /* ============================================
-   LOADER OVERLAY — Fullscreen preloader
+   LOADER OVERLAY — Pantalla completa mientras carga
    ============================================ */
 .loader-overlay {
   position: fixed;
@@ -17,7 +17,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Prevent scroll while loading */
   overflow: hidden;
 }
 
@@ -36,14 +35,14 @@
   width: 88px;
   height: 88px;
   display: block;
-  animation: vaflete-float 2.4s ease-in-out infinite;
+  animation: fletea-float 2.4s ease-in-out infinite;
 }
 
 .loader-brand {
   font-size: 2.2rem;
   font-weight: 900;
   color: #f5f5f5;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.3em;
   margin-bottom: 2rem;
 }
 
@@ -71,97 +70,7 @@
 }
 
 /* ============================================
-   HERO SECTION — Full viewport, dark gradient
-   ============================================ */
-.hero {
-  width: 100%;
-  height: 100vh;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, var(--t-stage, #0a0a0f) 0%, var(--t-stage-2, #111118) 100%);
-  color: #f5f5f5;
-  text-align: center;
-  padding: 2rem;
-  padding-top: calc(2rem + var(--safe-top, 0px));
-  position: relative;
-}
-
-.hero-content {
-  max-width: 800px;
-  width: 100%;
-}
-
-.hero-logo {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-isotype {
-  width: clamp(80px, 14vw, 160px);
-  height: clamp(80px, 14vw, 160px);
-  display: block;
-  filter: drop-shadow(0 18px 50px rgba(233, 69, 96, 0.35));
-  animation: vaflete-float 3s ease-in-out infinite;
-  will-change: transform;
-}
-
-.hero-title {
-  font-size: clamp(2.4rem, 7vw, 5.5rem);
-  font-family: var(--t-display-font, 'Inter'), system-ui, sans-serif;
-  font-weight: var(--t-display-weight, 900);
-  line-height: 1.02;
-  margin-bottom: 1.2rem;
-  letter-spacing: var(--t-display-track, -0.03em);
-  color: #ffffff;
-  /* text-wrap: balance with fallback — not all browsers support it */
-  text-wrap: balance;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-.hero-subtitle {
-  font-size: clamp(0.95rem, 2.2vw, 1.4rem);
-  color: rgba(245, 245, 245, 0.55);
-  font-weight: 400;
-  line-height: 1.6;
-  margin-top: 1.2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: calc(2rem + var(--safe-bottom, 0px));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  animation: vaflete-float 2.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.scroll-hint span {
-  font-size: 0.75rem;
-  color: rgba(245, 245, 245, 0.35);
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.scroll-arrow {
-  color: var(--t-accent, #e94560);
-  animation: vaflete-pulse 2s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* ============================================
-   SCROLL ANIMATION SECTION — Full width
+   SCROLL SECTION — tall container, canvas sticky
    ============================================ */
 .scroll-section {
   width: 100%;
@@ -180,7 +89,7 @@
 }
 
 /* ============================================
-   CANVAS — Fills entire sticky viewport
+   CANVAS — fullscreen, dibuja los frames
    ============================================ */
 .truck-canvas {
   position: absolute;
@@ -188,15 +97,13 @@
   width: 100%;
   height: 100%;
   display: block;
-  /* GPU acceleration for canvas compositing */
   will-change: contents;
-  /* Prevent touch-hold context menu on canvas */
   -webkit-touch-callout: none;
   touch-action: pan-y;
 }
 
 /* ============================================
-   VIGNETTE OVERLAY — Subtle for legibility
+   VIGNETTE — sombra perimetral sutil
    ============================================ */
 .vignette-overlay {
   position: absolute;
@@ -206,7 +113,112 @@
 }
 
 /* ============================================
-   LOADING HINT — Bottom-left mini progress
+   INTRO OVERLAY — visible al entrar, desaparece
+   al scrollear (opacity + translateY via CSS vars)
+   ============================================ */
+.intro-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3.5rem 2rem;
+  padding-top: calc(3.5rem + var(--safe-top, 0px));
+  padding-bottom: calc(2.5rem + var(--safe-bottom, 0px));
+  z-index: 8;
+  text-align: center;
+  pointer-events: none;
+  /* Gradientes arriba/abajo para legibilidad sobre el camión */
+  background:
+    linear-gradient(to bottom, rgba(10, 10, 15, 0.65) 0%, transparent 32%),
+    linear-gradient(to top,    rgba(10, 10, 15, 0.65) 0%, transparent 32%);
+  /* Opacidad y posición controladas desde JS en el scroll handler */
+  opacity: var(--intro-opacity, 1);
+  transform: translateY(var(--intro-ty, 0px));
+  will-change: opacity, transform;
+}
+
+/* --- Logo + wordmark (arriba) --- */
+.intro-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.intro-logo {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 0 28px rgba(233, 69, 96, 0.55));
+  animation: fletea-float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+.intro-wordmark {
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.55em;
+  color: rgba(245, 245, 245, 0.85);
+  text-transform: uppercase;
+}
+
+/* --- Headline central --- */
+.intro-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.intro-title {
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-family: var(--t-display-font, 'Inter'), system-ui, sans-serif;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.7);
+  margin: 0;
+}
+
+.intro-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  color: rgba(245, 245, 245, 0.6);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* --- Indicador de scroll (abajo) --- */
+.intro-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  animation: fletea-float 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.intro-hint-text {
+  font-size: 0.7rem;
+  color: rgba(245, 245, 245, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.intro-arrow {
+  color: var(--t-accent, #e94560);
+  animation: fletea-pulse 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* ============================================
+   LOADING HINT — barra mini bottom-left
    ============================================ */
 .load-hint {
   position: absolute;
@@ -240,7 +252,7 @@
 }
 
 /* ============================================
-   PROGRESS CHIP — Top-right scroll indicator
+   PROGRESS CHIP — aparece inversamente al intro
    ============================================ */
 .progress-chip {
   position: absolute;
@@ -253,10 +265,12 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   z-index: 5;
+  /* Se hace visible a medida que el intro desaparece */
+  opacity: calc(1 - var(--intro-opacity, 1));
 }
 
 /* ============================================
-   FORM OVERLAY — Centered with transition
+   FORM OVERLAY — centered / bottom-sheet móvil
    ============================================ */
 .form-overlay {
   position: absolute;
@@ -280,7 +294,7 @@
 }
 
 /* ============================================
-   FORM CARD — Glassmorphism on dark
+   FORM CARD — glassmorphism oscuro
    ============================================ */
 .form-card {
   width: 100%;
@@ -296,9 +310,7 @@
   padding: 2.5rem 2rem;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  /* Smooth inertia scrolling inside the card on iOS */
   -webkit-overflow-scrolling: touch;
-  /* Ensure scrollbar does not overlay content */
   scrollbar-gutter: stable;
 }
 
@@ -329,16 +341,13 @@
   padding: 0.75rem 1rem;
   border: 1.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  font-size: 0.95rem;
   font-family: inherit;
   color: #f5f5f5;
   background: rgba(255, 255, 255, 0.04);
   transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
   outline: none;
   box-sizing: border-box;
-  /* iOS: prevent auto-zoom on focus for inputs < 16px */
   font-size: max(0.95rem, 16px);
-  /* Better touch targets */
   min-height: 44px;
 }
 
@@ -352,7 +361,6 @@
   color: rgba(245, 245, 245, 0.25);
 }
 
-/* Fix date/time inputs on mobile — native pickers need styling */
 .form-group input[type="date"],
 .form-group input[type="time"] {
   color-scheme: dark;
@@ -367,11 +375,11 @@
 
 .form-row .form-group {
   flex: 1;
-  min-width: 0; /* prevent overflow in flex children */
+  min-width: 0;
 }
 
 /* ============================================
-   BUTTONS — High contrast on dark
+   BOTONES
    ============================================ */
 .btn-primary,
 .btn-success {
@@ -385,9 +393,7 @@
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background 0.25s;
   margin-top: 1rem;
-  /* Apple HIG: 44px min touch target */
   min-height: 48px;
-  /* Prevent text selection on double-tap */
   -webkit-user-select: none;
   user-select: none;
 }
@@ -430,7 +436,7 @@
 }
 
 /* ============================================
-   ERROR MESSAGE
+   MENSAJE DE ERROR
    ============================================ */
 .error-msg {
   margin-top: 0.75rem;
@@ -444,7 +450,7 @@
 }
 
 /* ============================================
-   QUOTE RESULT — Dark card variant
+   RESULTADO DE COTIZACIÓN
    ============================================ */
 .quote-result {
   margin-top: 1.25rem;
@@ -489,20 +495,16 @@
 }
 
 /* ============================================
-   SMALL PHONES (< 380px) — Extra-tight layout
+   TELÉFONOS PEQUEÑOS (< 380px)
    ============================================ */
 @media (max-width: 380px) {
-  .hero-title {
-    font-size: clamp(1.8rem, 10vw, 2.5rem);
+  .intro-title {
+    font-size: clamp(2rem, 11vw, 2.8rem);
   }
 
-  .hero-isotype {
-    width: 64px;
-    height: 64px;
-  }
-
-  .hero-subtitle {
-    font-size: 0.9rem;
+  .intro-logo {
+    width: 60px;
+    height: 60px;
   }
 
   .loader-isotype {
@@ -556,48 +558,42 @@
   .quote-highlight strong {
     font-size: 1.05rem;
   }
-
-  .scroll-hint span {
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-  }
 }
 
 /* ============================================
-   MOBILE (< 768px) — Bottom sheet + full canvas
+   MÓVIL (< 768px) — bottom-sheet + canvas completo
    ============================================ */
 @media (max-width: 768px) {
-  .hero {
-    padding: 1.5rem;
-    padding-top: calc(1.5rem + var(--safe-top, 0px));
-    padding-bottom: calc(5rem + var(--safe-bottom, 0px));
+  .intro-overlay {
+    padding: 2rem 1.5rem;
+    padding-top: calc(2rem + var(--safe-top, 0px));
+    padding-bottom: calc(2rem + var(--safe-bottom, 0px));
   }
 
-  .hero-title {
-    font-size: clamp(2rem, 10vw, 3.5rem);
+  .intro-logo {
+    width: 64px;
+    height: 64px;
   }
 
-  .hero-isotype {
+  .intro-title {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .intro-subtitle {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+  }
+
+  .loader-isotype {
     width: 72px;
     height: 72px;
   }
 
-  .hero-logo {
-    margin-bottom: 1rem;
-  }
-
-  .hero-subtitle {
-    font-size: clamp(0.9rem, 3vw, 1.1rem);
-    margin-top: 0.8rem;
-  }
-
-  .scroll-hint {
-    bottom: calc(1.5rem + var(--safe-bottom, 0px));
-    gap: 0.5rem;
+  .loader-brand {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
   }
 
   .scroll-section {
-    /* Shorter scroll on mobile — less fatigue */
     height: 350vh;
   }
 
@@ -646,7 +642,6 @@
     box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.5);
   }
 
-  /* Drag handle indicator */
   .form-card::before {
     content: '';
     display: block;
@@ -669,7 +664,6 @@
 
   .form-group input {
     padding: 0.65rem 0.9rem;
-    /* 16px minimum prevents iOS zoom on focus */
     font-size: 16px;
   }
 
@@ -693,53 +687,29 @@
     right: calc(16px + var(--safe-right, 0px));
     font-size: 10px;
   }
-
-  .loader-isotype {
-    width: 72px;
-    height: 72px;
-  }
-
-  .loader-brand {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-  }
 }
 
 /* ============================================
-   LANDSCAPE MOBILE — Compact horizontal layout
+   LANDSCAPE MÓVIL — layout horizontal compacto
    ============================================ */
 @media (max-height: 500px) and (orientation: landscape) {
-  .hero {
+  .intro-overlay {
     padding: 1rem 2rem;
-    gap: 0.5rem;
+    padding-top: calc(1rem + var(--safe-top, 0px));
+    padding-bottom: calc(1rem + var(--safe-bottom, 0px));
   }
 
-  .hero-logo {
-    margin-bottom: 0.5rem;
+  .intro-logo {
+    width: 44px;
+    height: 44px;
   }
 
-  .hero-isotype {
-    width: 48px;
-    height: 48px;
+  .intro-title {
+    font-size: clamp(1.6rem, 5vh, 2.5rem);
   }
 
-  .hero-title {
-    font-size: clamp(1.5rem, 5vh, 2.5rem);
-    margin-bottom: 0.4rem;
-  }
-
-  .hero-subtitle {
+  .intro-subtitle {
     font-size: 0.85rem;
-    margin-top: 0.3rem;
-  }
-
-  .scroll-hint {
-    bottom: 0.75rem;
-    gap: 0.25rem;
-  }
-
-  .scroll-hint span {
-    font-size: 0.6rem;
   }
 
   .scroll-section {
@@ -777,7 +747,6 @@
     min-height: 40px;
   }
 
-  /* In landscape, use centered overlay instead of bottom sheet */
   .form-overlay {
     top: 0 !important;
     bottom: 0 !important;
@@ -821,14 +790,14 @@
     padding: 2rem 1.5rem;
   }
 
-  .hero-isotype {
-    width: clamp(88px, 12vw, 120px);
-    height: clamp(88px, 12vw, 120px);
+  .intro-logo {
+    width: 72px;
+    height: 72px;
   }
 }
 
 /* ============================================
-   TABLET LANDSCAPE (768-1024 + landscape)
+   TABLET LANDSCAPE
    ============================================ */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   .scroll-section {
@@ -842,7 +811,7 @@
 }
 
 /* ============================================
-   LARGE DESKTOP (> 1440px)
+   DESKTOP GRANDE (> 1440px)
    ============================================ */
 @media (min-width: 1440px) {
   .form-card {
@@ -854,9 +823,9 @@
     font-size: 1.8rem;
   }
 
-  .hero-isotype {
-    width: 160px;
-    height: 160px;
+  .intro-logo {
+    width: 96px;
+    height: 96px;
   }
 }
 
@@ -869,11 +838,11 @@
     padding: 3.5rem 3rem;
   }
 
-  .hero-title {
+  .intro-title {
     font-size: 5.5rem;
   }
 
-  .hero-subtitle {
+  .intro-subtitle {
     font-size: 1.5rem;
   }
 
@@ -884,13 +853,13 @@
 }
 
 /* ============================================
-   REDUCED MOTION — Accessibility
+   REDUCED MOTION — Accesibilidad
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  .hero-isotype,
+  .intro-logo,
   .loader-isotype,
-  .scroll-hint,
-  .scroll-arrow {
+  .intro-footer,
+  .intro-arrow {
     animation: none !important;
   }
 
@@ -914,7 +883,7 @@
 }
 
 /* ============================================
-   HIGH CONTRAST — Accessibility
+   HIGH CONTRAST — Accesibilidad
    ============================================ */
 @media (prefers-contrast: high) {
   .form-card {
@@ -935,7 +904,7 @@
 }
 
 /* ============================================
-   SCROLLBAR — Minimal dark (Chromium + Firefox)
+   SCROLLBAR — mínimal oscura
    ============================================ */
 .form-card::-webkit-scrollbar {
   width: 3px;
@@ -954,7 +923,6 @@
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Firefox scrollbar */
 .form-card {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;

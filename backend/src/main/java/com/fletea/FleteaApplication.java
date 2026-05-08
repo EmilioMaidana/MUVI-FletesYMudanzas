@@ -1,11 +1,11 @@
-package com.vaflete;
+package com.fletea;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VaFleteApplication {
+public class FleteaApplication {
     public static void main(String[] args) {
-        SpringApplication.run(VaFleteApplication.class, args);
+        SpringApplication.run(FleteaApplication.class, args);
     }
 }

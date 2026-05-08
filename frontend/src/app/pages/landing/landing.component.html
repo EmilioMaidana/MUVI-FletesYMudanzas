@@ -1,11 +1,12 @@
 <main class="landing">
-  <!-- Loading Screen -->
+
+  <!-- ===== LOADER OVERLAY — pantalla completa mientras cargan las imágenes ===== -->
   <div class="loader-overlay" *ngIf="!imagesLoaded">
     <div class="loader-content">
       <div class="loader-logo">
-        <img src="assets/logo-vaflete.png" alt="VaFlete" class="loader-isotype">
+        <img src="assets/logo-fletea.png" alt="Fletea" class="loader-isotype">
       </div>
-      <h2 class="loader-brand">VAFLETE</h2>
+      <h2 class="loader-brand">FLETEA</h2>
       <div class="loader-bar">
         <div class="loader-fill" [style.width.%]="loadingProgress"></div>
       </div>
@@ -13,35 +14,43 @@
     </div>
   </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-logo">
-        <img src="assets/logo-vaflete.png" alt="VaFlete" class="hero-isotype">
-      </div>
-      <h1 class="hero-title">¿Necesitás un flete?</h1>
-      <p class="hero-subtitle">Cotizá al instante y reservá tu mudanza en minutos</p>
-    </div>
-    <div class="scroll-hint">
-      <span>Scrolleá para ver la magia</span>
-      <div class="scroll-arrow">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- Scroll Animation Section (sticky canvas + tall container) -->
+  <!-- ===== SECCIÓN PRINCIPAL — canvas sticky + animación por scroll ===== -->
   <section class="scroll-section" #scrollContainer>
     <div class="sticky-wrapper">
-      <!-- Canvas (fullscreen, behind everything) -->
+
+      <!-- Canvas: dibuja cada frame del camión -->
       <canvas #scrollCanvas class="truck-canvas"></canvas>
 
-      <!-- Vignette overlay for legibility -->
+      <!-- Viñeta perimetral para legibilidad -->
       <div class="vignette-overlay"></div>
 
-      <!-- Loading hint while frames preload -->
+      <!-- Intro overlay — se ve al entrar y desaparece al scrollear
+           La opacidad y el translate se manejan desde JS via CSS vars:
+           --intro-opacity y --intro-ty  -->
+      <div class="intro-overlay">
+        <div class="intro-header">
+          <img src="assets/logo-fletea.png" alt="Fletea" class="intro-logo">
+          <span class="intro-wordmark">FLETEA</span>
+        </div>
+
+        <div class="intro-center">
+          <h1 class="intro-title">¿Necesitás un flete?</h1>
+          <p class="intro-subtitle">Cotizá al instante · Reservá en minutos</p>
+        </div>
+
+        <div class="intro-footer">
+          <span class="intro-hint-text">Scrolleá para explorar</span>
+          <div class="intro-arrow">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 4v16m0 0l-6-6m6 6l6-6"
+                    stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini barra de carga (visible mientras el intro-overlay cubre todo) -->
       <div class="load-hint" *ngIf="!imagesLoaded">
         <span class="load-hint-bar">
           <span class="load-hint-fill" [style.width.%]="loadingProgress"></span>
@@ -49,10 +58,10 @@
         Cargando · {{ loadingProgress }}%
       </div>
 
-      <!-- Progress chip top-right -->
+      <!-- Chip de progreso de scroll — aparece a medida que el intro desaparece -->
       <div class="progress-chip">{{ scrollProgressDisplay }} / 100</div>
 
-      <!-- Form Overlay - Desktop: centered / Mobile: bottom sheet -->
+      <!-- Formulario de cotización — entra al 92% del scroll -->
       <div class="form-overlay" [class.visible]="showForm">
         <div class="form-card">
           <h2>Cotizá tu flete</h2>
@@ -74,12 +83,14 @@
 
           <div class="form-group">
             <label for="origen">Origen</label>
-            <input #origenInput id="origen" type="text" [(ngModel)]="formData.origen" placeholder="¿Desde dónde retiramos?">
+            <input #origenInput id="origen" type="text" [(ngModel)]="formData.origen"
+                   placeholder="¿Desde dónde retiramos?">
           </div>
 
           <div class="form-group">
             <label for="destino">Destino</label>
-            <input #destinoInput id="destino" type="text" [(ngModel)]="formData.destino" placeholder="¿A dónde llevamos?">
+            <input #destinoInput id="destino" type="text" [(ngModel)]="formData.destino"
+                   placeholder="¿A dónde llevamos?">
           </div>
 
           <div class="form-row">
@@ -97,10 +108,8 @@
             {{ cargandoCotizacion ? 'Calculando...' : 'Calcular precio' }}
           </button>
 
-          <!-- Error message -->
           <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
 
-          <!-- Cotización result -->
           <div class="quote-result" *ngIf="cotizacion">
             <div class="quote-row">
               <span>Distancia total</span>
@@ -120,6 +129,8 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
+
 </main>

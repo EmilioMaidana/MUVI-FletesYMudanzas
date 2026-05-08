@@ -1,7 +1,7 @@
-package com.vaflete.service;
+package com.fletea.service;
 
 /**
- * Pure algorithmic pricing function for VaFlete moving service.
+ * Pure algorithmic pricing function for Fletea moving service.
  *
  * Model:  price = max(P_min, C_base + C_dist + C_time)
  *

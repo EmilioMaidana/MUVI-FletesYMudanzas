@@ -1,4 +1,4 @@
-package com.vaflete.model;
+package com.fletea.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

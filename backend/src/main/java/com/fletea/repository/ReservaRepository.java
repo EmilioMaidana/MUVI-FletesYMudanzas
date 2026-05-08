@@ -1,6 +1,6 @@
-package com.vaflete.repository;
+package com.fletea.repository;
 
-import com.vaflete.model.Reserva;
+import com.fletea.model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

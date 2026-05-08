@@ -1,4 +1,4 @@
-package com.vaflete.dto;
+package com.fletea.dto;
 
 import jakarta.validation.constraints.*;
 

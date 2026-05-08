@@ -1,6 +1,6 @@
-package com.vaflete.config;
+package com.fletea.config;
 
-import com.vaflete.service.JwtService;
+import com.fletea.service.JwtService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

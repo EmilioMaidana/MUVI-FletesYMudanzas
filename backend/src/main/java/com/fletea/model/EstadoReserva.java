@@ -1,4 +1,4 @@
-package com.vaflete.model;
+package com.fletea.model;
 
 public enum EstadoReserva {
     PENDIENTE_PAGO,

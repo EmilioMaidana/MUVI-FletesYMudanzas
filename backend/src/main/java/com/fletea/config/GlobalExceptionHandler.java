@@ -1,4 +1,4 @@
-package com.vaflete.config;
+package com.fletea.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

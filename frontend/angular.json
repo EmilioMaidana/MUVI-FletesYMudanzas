@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "vaflete": {
+    "fletea": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/vaflete",
+            "outputPath": "dist/fletea",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -50,8 +50,8 @@
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
-            "production": { "buildTarget": "vaflete:build:production" },
-            "development": { "buildTarget": "vaflete:build:development" }
+            "production": { "buildTarget": "fletea:build:production" },
+            "development": { "buildTarget": "fletea:build:development" }
           },
           "defaultConfiguration": "development"
         }

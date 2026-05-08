@@ -91,12 +91,12 @@ h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
 }
 
-@keyframes vaflete-float {
+@keyframes fletea-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
 
-@keyframes vaflete-pulse {
+@keyframes fletea-pulse {
   0%, 100% { opacity: 1; transform: translateY(0); }
   50% { opacity: 0.4; transform: translateY(6px); }
 }

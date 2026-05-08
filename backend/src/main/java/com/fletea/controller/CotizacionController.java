@@ -1,8 +1,8 @@
-package com.vaflete.controller;
+package com.fletea.controller;
 
-import com.vaflete.dto.CotizacionRequest;
-import com.vaflete.dto.CotizacionResponse;
-import com.vaflete.service.CotizadorService;
+import com.fletea.dto.CotizacionRequest;
+import com.fletea.dto.CotizacionResponse;
+import com.fletea.service.CotizadorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

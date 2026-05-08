@@ -1,8 +1,8 @@
-package com.vaflete.controller;
+package com.fletea.controller;
 
-import com.vaflete.dto.LoginRequest;
-import com.vaflete.dto.LoginResponse;
-import com.vaflete.service.JwtService;
+import com.fletea.dto.LoginRequest;
+import com.fletea.dto.LoginResponse;
+import com.fletea.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

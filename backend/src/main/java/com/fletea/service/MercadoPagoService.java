@@ -1,4 +1,4 @@
-package com.vaflete.service;
+package com.fletea.service;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
@@ -26,7 +26,7 @@ public class MercadoPagoService {
     @Value("${mercadopago.notification-url}")
     private String notificationUrl;
 
-    @Value("${vaflete.frontend-url:http://localhost:4200}")
+    @Value("${fletea.frontend-url:http://localhost:4200}")
     private String frontendUrl;
 
     @PostConstruct
@@ -40,7 +40,7 @@ public class MercadoPagoService {
      */
     public Preference crearPreferencia(Long reservaId, BigDecimal monto) {
         PreferenceItemRequest item = PreferenceItemRequest.builder()
-                .title("Seña - VaFlete #" + reservaId)
+                .title("Seña - Fletea #" + reservaId)
                 .quantity(1)
                 .unitPrice(monto)
                 .currencyId("ARS")

@@ -1,9 +1,9 @@
-package com.vaflete.controller;
+package com.fletea.controller;
 
-import com.vaflete.dto.ReservaRequest;
-import com.vaflete.dto.ReservaResponse;
-import com.vaflete.model.Reserva;
-import com.vaflete.service.ReservaService;
+import com.fletea.dto.ReservaRequest;
+import com.fletea.dto.ReservaResponse;
+import com.fletea.model.Reserva;
+import com.fletea.service.ReservaService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

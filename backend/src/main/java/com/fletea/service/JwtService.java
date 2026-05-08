@@ -1,4 +1,4 @@
-package com.vaflete.service;
+package com.fletea.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

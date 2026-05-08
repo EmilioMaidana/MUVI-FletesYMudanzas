@@ -202,6 +202,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       this.scrollProgress = progress;
       this.targetFrame = Math.round(progress * (TOTAL_FRAMES - 1));
 
+      // Intro overlay: desaparece durante el primer 18% del scroll
+      // Controlado via CSS var para evitar pasar por Angular change detection
+      const introOpacity = Math.max(0, 1 - progress * 5.5);
+      const introTy = Math.round(progress * -70);
+      document.documentElement.style.setProperty('--intro-opacity', introOpacity.toFixed(3));
+      document.documentElement.style.setProperty('--intro-ty', `${introTy}px`);
+
       const shouldShow = progress >= 0.92;
       if (shouldShow !== this.showForm) {
         this.ngZone.run(() => {

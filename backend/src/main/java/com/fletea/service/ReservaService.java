@@ -1,12 +1,12 @@
-package com.vaflete.service;
+package com.fletea.service;
 
 import com.mercadopago.resources.preference.Preference;
-import com.vaflete.dto.CotizacionResponse;
-import com.vaflete.dto.ReservaRequest;
-import com.vaflete.dto.ReservaResponse;
-import com.vaflete.model.EstadoReserva;
-import com.vaflete.model.Reserva;
-import com.vaflete.repository.ReservaRepository;
+import com.fletea.dto.CotizacionResponse;
+import com.fletea.dto.ReservaRequest;
+import com.fletea.dto.ReservaResponse;
+import com.fletea.model.EstadoReserva;
+import com.fletea.model.Reserva;
+import com.fletea.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

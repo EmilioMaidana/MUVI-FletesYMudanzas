@@ -1,6 +1,6 @@
-package com.vaflete.service;
+package com.fletea.service;
 
-import com.vaflete.dto.CotizacionResponse;
+import com.fletea.dto.CotizacionResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.math.RoundingMode;
 @Service
 public class CotizadorService {
 
-    @Value("${vaflete.deposit-percentage}")
+    @Value("${fletea.deposit-percentage}")
     private double porcentajeSena;
 
     private final GoogleMapsService googleMapsService;
