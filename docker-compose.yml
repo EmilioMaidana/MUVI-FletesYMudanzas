@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: muvidb
       POSTGRES_USER: muvi
-      POSTGRES_PASSWORD: muvi_secret
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -29,10 +29,14 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/muvidb
       SPRING_DATASOURCE_USERNAME: muvi
-      SPRING_DATASOURCE_PASSWORD: muvi_secret
-      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-YOUR_GOOGLE_MAPS_API_KEY}
-      MERCADOPAGO_ACCESS_TOKEN: ${MERCADOPAGO_ACCESS_TOKEN:-YOUR_MERCADOPAGO_ACCESS_TOKEN}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
+      MERCADOPAGO_ACCESS_TOKEN: ${MERCADOPAGO_ACCESS_TOKEN}
       MERCADOPAGO_NOTIFICATION_URL: ${MERCADOPAGO_NOTIFICATION_URL:-http://localhost:8080/api/payments/webhook}
+      MUVI_FRONTEND_URL: ${MUVI_FRONTEND_URL:-http://localhost:4200}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-muvi2024}
+      JWT_SECRET: ${JWT_SECRET:-m8K2pL9xQwN4vR7tY1zA3cF6gH0jE5bU}
     depends_on:
       postgres:
         condition: service_healthy
@@ -44,6 +48,8 @@ services:
     container_name: muvi-frontend
     ports:
       - "4200:80"
+    environment:
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
     depends_on:
       - backend
 

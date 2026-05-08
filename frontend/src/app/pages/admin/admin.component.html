@@ -1,13 +1,61 @@
-<div class="admin-container">
+<!-- ========== LOGIN ========== -->
+<div class="login-container" *ngIf="!isAuthenticated">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="assets/logo-muvi.png" alt="Muvi" class="login-isotype">
+    </div>
+    <h1>Panel de Administración</h1>
+    <p class="login-subtitle">Ingresá tus credenciales para continuar</p>
+
+    <form (ngSubmit)="login()" class="login-form">
+      <div class="input-group">
+        <label for="username">Usuario</label>
+        <input
+          id="username"
+          type="text"
+          [(ngModel)]="loginUser"
+          name="username"
+          placeholder="admin"
+          autocomplete="username"
+          required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Contraseña</label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="loginPass"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required>
+      </div>
+
+      <div class="login-error" *ngIf="loginError">{{ loginError }}</div>
+
+      <button type="submit" class="btn-login" [disabled]="loginLoading || !loginUser || !loginPass">
+        {{ loginLoading ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ========== ADMIN PANEL ========== -->
+<div class="admin-container" *ngIf="isAuthenticated">
   <header class="admin-header">
-    <h1>Panel de Administración - Muvi</h1>
-    <button class="btn-refresh" (click)="cargarReservas()">Actualizar</button>
+    <h1>Panel de Administración · Muvi</h1>
+    <div class="header-actions">
+      <button class="btn-refresh" (click)="cargarReservas()">Actualizar</button>
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </div>
   </header>
 
   <div class="loading" *ngIf="cargando">Cargando reservas...</div>
 
   <div class="table-container" *ngIf="!cargando">
-    <table *ngIf="reservas.length > 0">
+    <!-- Desktop: table view -->
+    <table *ngIf="reservas.length > 0" class="desktop-table">
       <thead>
         <tr>
           <th>ID</th>
@@ -39,6 +87,47 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Mobile: card view -->
+    <div class="mobile-cards" *ngIf="reservas.length > 0">
+      <div class="reserva-card" *ngFor="let r of reservas">
+        <div class="card-header">
+          <span class="card-id">#{{ r.id }}</span>
+          <span class="badge" [ngClass]="getEstadoClass(r.estado)">{{ getEstadoLabel(r.estado) }}</span>
+        </div>
+        <h3 class="card-name">{{ r.nombreCompleto }}</h3>
+        <div class="card-row">
+          <span class="card-label">Teléfono</span>
+          <span>{{ r.telefono }}</span>
+        </div>
+        <div class="card-row">
+          <span class="card-label">Email</span>
+          <span class="card-email">{{ r.email }}</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-row">
+          <span class="card-label">Origen</span>
+          <span class="card-address">{{ r.origen }}</span>
+        </div>
+        <div class="card-row">
+          <span class="card-label">Destino</span>
+          <span class="card-address">{{ r.destino }}</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-row">
+          <span class="card-label">Fecha / Hora</span>
+          <span>{{ r.fecha }} · {{ r.hora }}</span>
+        </div>
+        <div class="card-row">
+          <span class="card-label">Distancia</span>
+          <span>{{ r.distanciaKm | number:'1.1-1' }} km</span>
+        </div>
+        <div class="card-row card-total">
+          <span class="card-label">Costo Total</span>
+          <strong>$ {{ r.costoTotal | number:'1.0-0' }}</strong>
+        </div>
+      </div>
+    </div>
 
     <div class="empty-state" *ngIf="reservas.length === 0">
       <p>No hay reservas registradas aún.</p>

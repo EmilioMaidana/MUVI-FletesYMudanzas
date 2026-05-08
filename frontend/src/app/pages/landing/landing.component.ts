@@ -13,7 +13,7 @@ import { ApiService, CotizacionResponse, ReservaRequest } from '../../services/a
 declare const google: any;
 
 const TOTAL_FRAMES = 160;
-const LERP_FACTOR = 0.08;
+const LERP_FACTOR = 0.12;
 
 @Component({
   selector: 'app-landing',
@@ -34,6 +34,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   cotizacion: CotizacionResponse | null = null;
   cargandoCotizacion = false;
   cargandoReserva = false;
+  scrollProgressDisplay = '00';
 
   formData: ReservaRequest = {
     nombreCompleto: '',
@@ -52,6 +53,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private animationId = 0;
   private resizeObserver!: ResizeObserver;
   private scrollHandler!: () => void;
+  private orientationHandler!: () => void;
+  private scrollProgress = 0;
+  private canvasDpr = 1;
+  private resizeTimeout: any = 0;
 
   constructor(
     private apiService: ApiService,
@@ -65,6 +70,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     this.preloadImages();
     this.bindScrollListener();
     this.setupResizeObserver();
+    this.bindOrientationHandler();
     this.startRenderLoop();
     this.initAutocomplete();
   }
@@ -72,7 +78,12 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     cancelAnimationFrame(this.animationId);
     window.removeEventListener('scroll', this.scrollHandler);
+    window.removeEventListener('resize', this.orientationHandler);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', this.orientationHandler);
+    }
     this.resizeObserver?.disconnect();
+    clearTimeout(this.resizeTimeout);
   }
 
   private preloadImages() {
@@ -119,21 +130,62 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     loadBatch(0);
   }
 
+  /**
+   * Set up the canvas dimensions accounting for DPR.
+   * Canvas internal resolution = CSS size * DPR for crisp rendering.
+   * ctx.scale(dpr) lets us draw in CSS-pixel coordinates.
+   */
   private setupCanvas() {
     const canvas = this.canvasRef.nativeElement;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    this.ctx.scale(dpr, dpr);
+    this.canvasDpr = dpr;
+
+    // Use clientWidth/clientHeight for stable dimensions on all browsers
+    const w = canvas.clientWidth || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    // Scale context so we draw in CSS-pixel space
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   private setupResizeObserver() {
     this.resizeObserver = new ResizeObserver(() => {
-      this.setupCanvas();
-      this.drawFrame(this.currentFrame);
+      // Debounce resize to avoid layout thrashing during orientation change
+      clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = setTimeout(() => {
+        this.setupCanvas();
+        this.drawFrame(Math.round(this.currentFrame));
+      }, 50);
     });
     this.resizeObserver.observe(this.canvasRef.nativeElement);
+  }
+
+  /**
+   * Handle device orientation changes and mobile browser chrome
+   * resize (iOS Safari address bar show/hide).
+   */
+  private bindOrientationHandler() {
+    this.orientationHandler = () => {
+      clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = setTimeout(() => {
+        this.setupCanvas();
+        this.drawFrame(Math.round(this.currentFrame));
+      }, 100);
+    };
+
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('resize', this.orientationHandler, { passive: true });
+
+      // iOS Safari: visualViewport fires when address bar collapses/expands
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', this.orientationHandler, { passive: true });
+      }
+    });
   }
 
   private bindScrollListener() {
@@ -141,14 +193,20 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
       const container = this.scrollContainerRef.nativeElement;
       const rect = container.getBoundingClientRect();
       const scrollableHeight = container.offsetHeight - window.innerHeight;
+
+      if (scrollableHeight <= 0) return;
+
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / scrollableHeight));
 
+      this.scrollProgress = progress;
       this.targetFrame = Math.round(progress * (TOTAL_FRAMES - 1));
 
       const shouldShow = progress >= 0.92;
       if (shouldShow !== this.showForm) {
-        this.ngZone.run(() => { this.showForm = shouldShow; });
+        this.ngZone.run(() => {
+          this.showForm = shouldShow;
+        });
       }
     };
 
@@ -159,12 +217,25 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   private startRenderLoop() {
     this.ngZone.runOutsideAngular(() => {
+      let lastDisplay = '00';
+
       const loop = () => {
         const diff = this.targetFrame - this.currentFrame;
         if (Math.abs(diff) > 0.5) {
           this.currentFrame += diff * LERP_FACTOR;
           this.drawFrame(Math.round(this.currentFrame));
         }
+
+        // Update progress display — only trigger zone when string changes
+        const pct = Math.round(this.scrollProgress * 100);
+        const display = String(pct).padStart(2, '0');
+        if (display !== lastDisplay) {
+          lastDisplay = display;
+          this.ngZone.run(() => {
+            this.scrollProgressDisplay = display;
+          });
+        }
+
         this.animationId = requestAnimationFrame(loop);
       };
       loop();
@@ -174,15 +245,21 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private drawFrame(index: number) {
     const frameIndex = Math.max(0, Math.min(TOTAL_FRAMES - 1, index));
     const img = this.frames[frameIndex];
-    if (!img) return;
+    if (!img || !img.complete || !img.naturalWidth) return;
 
     const canvas = this.canvasRef.nativeElement;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = this.canvasDpr;
+
+    // CSS-pixel dimensions (ctx is already scaled by dpr)
     const cw = canvas.width / dpr;
     const ch = canvas.height / dpr;
 
-    // Fill with background matching the truck's dark anthracite
-    this.ctx.fillStyle = '#0a0a0f';
+    if (cw <= 0 || ch <= 0) return;
+
+    // Fill with background matching the stage color
+    const stageColor = getComputedStyle(document.documentElement)
+      .getPropertyValue('--t-stage').trim() || '#0a0a0f';
+    this.ctx.fillStyle = stageColor;
     this.ctx.fillRect(0, 0, cw, ch);
 
     // object-fit: cover + scale 1.08 to crop watermark at bottom-right

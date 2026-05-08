@@ -2,6 +2,9 @@
   <!-- Loading Screen -->
   <div class="loader-overlay" *ngIf="!imagesLoaded">
     <div class="loader-content">
+      <div class="loader-logo">
+        <img src="assets/logo-muvi.png" alt="Muvi" class="loader-isotype">
+      </div>
       <h2 class="loader-brand">MUVI</h2>
       <div class="loader-bar">
         <div class="loader-fill" [style.width.%]="loadingProgress"></div>
@@ -13,7 +16,10 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">¿Necesitas un flete?</h1>
+      <div class="hero-logo">
+        <img src="assets/logo-muvi.png" alt="Muvi" class="hero-isotype">
+      </div>
+      <h1 class="hero-title">¿Necesitás un flete?</h1>
       <p class="hero-subtitle">Cotizá al instante y reservá tu mudanza en minutos</p>
     </div>
     <div class="scroll-hint">
@@ -32,7 +38,21 @@
       <!-- Canvas (fullscreen, behind everything) -->
       <canvas #scrollCanvas class="truck-canvas"></canvas>
 
-      <!-- Form Overlay - Desktop: left half / Mobile: bottom sheet -->
+      <!-- Vignette overlay for legibility -->
+      <div class="vignette-overlay"></div>
+
+      <!-- Loading hint while frames preload -->
+      <div class="load-hint" *ngIf="!imagesLoaded">
+        <span class="load-hint-bar">
+          <span class="load-hint-fill" [style.width.%]="loadingProgress"></span>
+        </span>
+        Cargando · {{ loadingProgress }}%
+      </div>
+
+      <!-- Progress chip top-right -->
+      <div class="progress-chip">{{ scrollProgressDisplay }} / 100</div>
+
+      <!-- Form Overlay - Desktop: centered / Mobile: bottom sheet -->
       <div class="form-overlay" [class.visible]="showForm">
         <div class="form-card">
           <h2>Cotizá tu flete</h2>

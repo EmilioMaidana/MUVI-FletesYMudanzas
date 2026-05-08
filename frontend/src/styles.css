@@ -11,6 +11,7 @@
   --primary-light: #111118;
   --accent: #e94560;
   --accent-hover: #d63851;
+  --accent-soft: rgba(233, 69, 96, 0.15);
   --bg-light: #f8f9fa;
   --text-dark: #16213e;
   --text-light: #f5f5f5;
@@ -18,23 +19,52 @@
   --text-muted-light: rgba(245, 245, 245, 0.5);
   --white: #ffffff;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  /* Design system tokens */
+  --t-accent: #e94560;
+  --t-accent-hover: #d63851;
+  --t-accent-soft: rgba(233, 69, 96, 0.15);
+  --t-display-font: 'Inter';
+  --t-display-weight: 900;
+  --t-display-track: -0.03em;
+  --t-stage: #0a0a0f;
+  --t-stage-2: #111118;
+
+  /* Safe-area fallbacks for notched devices */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 html {
   scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Prevent horizontal scroll on any device */
+  overflow-x: hidden;
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--text-light);
-  background: var(--primary);
+  background: var(--t-stage);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* IMPORTANT: use 'clip' NOT 'hidden' — hidden breaks position:sticky */
   overflow-x: clip;
   min-height: 100vh;
+  min-height: 100dvh;
+  /* Smooth momentum scroll on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fallback for browsers that don't support overflow-x: clip */
+@supports not (overflow-x: clip) {
+  body {
+    overflow-x: hidden;
+  }
 }
 
 img, canvas {
@@ -49,4 +79,88 @@ a {
 
 button {
   font-family: inherit;
+}
+
+/* Prevent tap highlight on mobile */
+a, button, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smoother font rendering on all OS */
+h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility;
+}
+
+@keyframes muvi-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes muvi-pulse {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.4; transform: translateY(6px); }
+}
+
+/* ============================================
+   Google Places Autocomplete — consistent
+   styling across all breakpoints
+   ============================================ */
+.pac-container {
+  z-index: 99999 !important;
+  background: rgba(18, 18, 24, 0.97) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+  margin-top: 4px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 4px 0 !important;
+}
+
+.pac-item {
+  padding: 10px 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: #f5f5f5 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+}
+
+.pac-item:first-child {
+  border-top: none !important;
+}
+
+.pac-item:hover,
+.pac-item-selected {
+  background: rgba(233, 69, 96, 0.12) !important;
+}
+
+.pac-item-query {
+  color: #f5f5f5 !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+}
+
+.pac-matched {
+  color: var(--t-accent) !important;
+  font-weight: 700 !important;
+}
+
+.pac-icon {
+  display: none !important;
+}
+
+/* Google Places: mobile-friendly touch targets */
+@media (max-width: 768px) {
+  .pac-item {
+    padding: 14px 16px !important;
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Hide Google Maps branding on autocomplete */
+.pac-container::after {
+  display: none !important;
 }
