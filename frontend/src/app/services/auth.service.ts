@@ -8,7 +8,7 @@ interface LoginResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly TOKEN_KEY = 'muvi_admin_token';
+  private readonly TOKEN_KEY = 'vaflete_admin_token';
   private readonly API = '/api/auth';
 
   constructor(private http: HttpClient) {}

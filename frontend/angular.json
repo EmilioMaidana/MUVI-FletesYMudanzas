@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "muvi-fletes": {
+    "vaflete": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/muvi-fletes",
+            "outputPath": "dist/vaflete",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -50,8 +50,8 @@
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
-            "production": { "buildTarget": "muvi-fletes:build:production" },
-            "development": { "buildTarget": "muvi-fletes:build:development" }
+            "production": { "buildTarget": "vaflete:build:production" },
+            "development": { "buildTarget": "vaflete:build:development" }
           },
           "defaultConfiguration": "development"
         }

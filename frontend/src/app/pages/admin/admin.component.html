@@ -2,7 +2,7 @@
 <div class="login-container" *ngIf="!isAuthenticated">
   <div class="login-card">
     <div class="login-logo">
-      <img src="assets/logo-muvi.png" alt="Muvi" class="login-isotype">
+      <img src="assets/logo-vaflete.png" alt="VaFlete" class="login-isotype">
     </div>
     <h1>Panel de Administración</h1>
     <p class="login-subtitle">Ingresá tus credenciales para continuar</p>
@@ -44,7 +44,7 @@
 <!-- ========== ADMIN PANEL ========== -->
 <div class="admin-container" *ngIf="isAuthenticated">
   <header class="admin-header">
-    <h1>Panel de Administración · Muvi</h1>
+    <h1>Panel de Administración · VaFlete</h1>
     <div class="header-actions">
       <button class="btn-refresh" (click)="cargarReservas()">Actualizar</button>
       <button class="btn-logout" (click)="logout()">Cerrar sesión</button>

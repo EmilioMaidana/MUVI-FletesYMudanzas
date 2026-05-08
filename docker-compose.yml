@@ -3,17 +3,17 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: muvi-db
+    container_name: vaflete-db
     environment:
-      POSTGRES_DB: muvidb
-      POSTGRES_USER: muvi
+      POSTGRES_DB: vafletedb
+      POSTGRES_USER: vaflete
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U muvi -d muvidb"]
+      test: ["CMD-SHELL", "pg_isready -U vaflete -d vafletedb"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -22,20 +22,20 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: muvi-backend
+    container_name: vaflete-backend
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/muvidb
-      SPRING_DATASOURCE_USERNAME: muvi
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vafletedb
+      SPRING_DATASOURCE_USERNAME: vaflete
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
       MERCADOPAGO_ACCESS_TOKEN: ${MERCADOPAGO_ACCESS_TOKEN}
       MERCADOPAGO_NOTIFICATION_URL: ${MERCADOPAGO_NOTIFICATION_URL:-http://localhost:8080/api/payments/webhook}
-      MUVI_FRONTEND_URL: ${MUVI_FRONTEND_URL:-http://localhost:4200}
+      VAFLETE_FRONTEND_URL: ${VAFLETE_FRONTEND_URL:-http://localhost:4200}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-muvi2024}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-vaflete2024}
       JWT_SECRET: ${JWT_SECRET:-m8K2pL9xQwN4vR7tY1zA3cF6gH0jE5bU}
     depends_on:
       postgres:
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    container_name: muvi-frontend
+    container_name: vaflete-frontend
     ports:
       - "4200:80"
     environment:
