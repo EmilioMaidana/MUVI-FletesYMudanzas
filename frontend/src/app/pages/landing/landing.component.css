@@ -1,0 +1,507 @@
+/* ============================================
+   HOST — Full-width, zero margins
+   ============================================ */
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* ============================================
+   LOADER OVERLAY
+   ============================================ */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-brand {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #f5f5f5;
+  letter-spacing: 0.25em;
+  margin-bottom: 2.5rem;
+}
+
+.loader-bar {
+  width: 220px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+}
+
+.loader-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.15s linear;
+}
+
+.loader-percent {
+  font-size: 0.8rem;
+  color: rgba(245, 245, 245, 0.4);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   HERO SECTION — Full viewport, dark
+   ============================================ */
+.hero {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0a0a0f 0%, #111118 100%);
+  color: #f5f5f5;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  color: rgba(245, 245, 245, 0.55);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.scroll-hint span {
+  font-size: 0.75rem;
+  color: rgba(245, 245, 245, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+
+.scroll-arrow {
+  color: var(--accent);
+  animation: pulse-down 2s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-down {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: translateY(6px);
+  }
+}
+
+/* ============================================
+   SCROLL ANIMATION SECTION — Full width, no gaps
+   ============================================ */
+.scroll-section {
+  width: 100%;
+  height: 250vh;
+  position: relative;
+  background: #0a0a0f;
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ============================================
+   CANVAS — Fills entire sticky viewport
+   ============================================ */
+.truck-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ============================================
+   FORM OVERLAY — DESKTOP (centered, with
+   semi-transparent dark backdrop)
+   ============================================ */
+.form-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+.form-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* ============================================
+   FORM CARD — Glassmorphism on dark
+   ============================================ */
+.form-card {
+  width: 100%;
+  max-width: 420px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: rgba(18, 18, 24, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.form-card h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f5f5f5;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.form-group {
+  margin-bottom: 0.9rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(245, 245, 245, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #f5f5f5;
+  background: rgba(255, 255, 255, 0.04);
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.15);
+}
+
+.form-group input::placeholder {
+  color: rgba(245, 245, 245, 0.25);
+}
+
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* ============================================
+   BUTTONS — High contrast on dark
+   ============================================ */
+.btn-primary,
+.btn-success {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.25s;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(233, 69, 96, 0.35);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(233, 69, 96, 0.45);
+}
+
+.btn-success {
+  background: #22c55e;
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.45);
+}
+
+.btn-primary:disabled,
+.btn-success:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================
+   ERROR MESSAGE
+   ============================================ */
+.error-msg {
+  margin-top: 0.75rem;
+  padding: 0.7rem 1rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.btn-primary:active:not(:disabled),
+.btn-success:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ============================================
+   QUOTE RESULT — Dark card variant
+   ============================================ */
+.quote-result {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.quote-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  font-size: 0.9rem;
+  color: #f5f5f5;
+}
+
+.quote-row+.quote-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.quote-row span {
+  color: rgba(245, 245, 245, 0.5);
+}
+
+.quote-highlight {
+  padding-top: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.quote-highlight strong {
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+
+/* ============================================
+   MOBILE (< 768px) — Bottom sheet + full canvas
+   ============================================ */
+@media (max-width: 768px) {
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .scroll-section {
+    height: 250vh;
+  }
+
+  .form-overlay {
+    width: 100%;
+    height: auto;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: flex-end;
+    padding: 0;
+    transform: translateY(100%);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .form-overlay.visible {
+    transform: translateY(0);
+  }
+
+  .form-overlay::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .form-overlay.visible::before {
+    opacity: 1;
+  }
+
+  .form-card {
+    max-width: 100%;
+    max-height: 72vh;
+    border-radius: 24px 24px 0 0;
+    padding: 1.5rem 1.5rem 2rem;
+    border-bottom: none;
+    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .form-card::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin: 0 auto 1.2rem;
+  }
+
+  .form-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.7rem;
+  }
+
+  .form-group input {
+    padding: 0.7rem 0.9rem;
+    font-size: 16px;
+    /* prevents iOS zoom */
+  }
+}
+
+/* ============================================
+   TABLET (769px - 1024px)
+   ============================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .form-card {
+    max-width: 400px;
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* ============================================
+   LARGE DESKTOP (> 1440px)
+   ============================================ */
+@media (min-width: 1440px) {
+  .form-card {
+    max-width: 460px;
+    padding: 3rem 2.5rem;
+  }
+
+  .form-card h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ============================================
+   SCROLLBAR — Minimal dark
+   ============================================ */
+.form-card::-webkit-scrollbar {
+  width: 3px;
+}
+
+.form-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+.form-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

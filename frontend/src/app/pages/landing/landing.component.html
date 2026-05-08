@@ -1,0 +1,105 @@
+<main class="landing">
+  <!-- Loading Screen -->
+  <div class="loader-overlay" *ngIf="!imagesLoaded">
+    <div class="loader-content">
+      <h2 class="loader-brand">MUVI</h2>
+      <div class="loader-bar">
+        <div class="loader-fill" [style.width.%]="loadingProgress"></div>
+      </div>
+      <span class="loader-percent">{{ loadingProgress }}%</span>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">¿Necesitas un flete?</h1>
+      <p class="hero-subtitle">Cotizá al instante y reservá tu mudanza en minutos</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scrolleá para ver la magia</span>
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll Animation Section (sticky canvas + tall container) -->
+  <section class="scroll-section" #scrollContainer>
+    <div class="sticky-wrapper">
+      <!-- Canvas (fullscreen, behind everything) -->
+      <canvas #scrollCanvas class="truck-canvas"></canvas>
+
+      <!-- Form Overlay - Desktop: left half / Mobile: bottom sheet -->
+      <div class="form-overlay" [class.visible]="showForm">
+        <div class="form-card">
+          <h2>Cotizá tu flete</h2>
+
+          <div class="form-group">
+            <label for="nombre">Nombre completo</label>
+            <input id="nombre" type="text" [(ngModel)]="formData.nombreCompleto" placeholder="Tu nombre completo">
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="tel" [(ngModel)]="formData.telefono" placeholder="11-XXXX-XXXX">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" [(ngModel)]="formData.email" placeholder="tu@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="origen">Origen</label>
+            <input #origenInput id="origen" type="text" [(ngModel)]="formData.origen" placeholder="¿Desde dónde retiramos?">
+          </div>
+
+          <div class="form-group">
+            <label for="destino">Destino</label>
+            <input #destinoInput id="destino" type="text" [(ngModel)]="formData.destino" placeholder="¿A dónde llevamos?">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fecha">Fecha</label>
+              <input id="fecha" type="date" [(ngModel)]="formData.fecha">
+            </div>
+            <div class="form-group">
+              <label for="hora">Hora</label>
+              <input id="hora" type="time" [(ngModel)]="formData.hora">
+            </div>
+          </div>
+
+          <button class="btn-primary" (click)="cotizar()" [disabled]="cargandoCotizacion">
+            {{ cargandoCotizacion ? 'Calculando...' : 'Calcular precio' }}
+          </button>
+
+          <!-- Error message -->
+          <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+          <!-- Cotización result -->
+          <div class="quote-result" *ngIf="cotizacion">
+            <div class="quote-row">
+              <span>Distancia total</span>
+              <strong>{{ cotizacion.distanciaKm | number:'1.1-1' }} km</strong>
+            </div>
+            <div class="quote-row">
+              <span>Costo total</span>
+              <strong>$ {{ cotizacion.costoTotal | number:'1.0-0' }}</strong>
+            </div>
+            <div class="quote-row quote-highlight">
+              <span>Seña a abonar (15%)</span>
+              <strong>$ {{ cotizacion.montoSena | number:'1.0-0' }}</strong>
+            </div>
+            <button class="btn-success" (click)="reservar()" [disabled]="cargandoReserva">
+              {{ cargandoReserva ? 'Procesando...' : 'Reservar y pagar seña' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

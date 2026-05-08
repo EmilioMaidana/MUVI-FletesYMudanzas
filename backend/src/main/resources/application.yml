@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: muvi-fletes
+
+  datasource:
+    url: jdbc:h2:mem:muvidb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+muvi:
+  base-address: "Adolfo Alsina 2034, Cdad. Autónoma de Buenos Aires, Argentina"
+  deposit-percentage: 0.15
+
+google:
+  maps:
+    api-key: ${GOOGLE_MAPS_API_KEY:AIzaSyDwlrxloFd-vDSwV3X_PTBENOjOjHSU028}
+
+mercadopago:
+  access-token: ${MERCADOPAGO_ACCESS_TOKEN:YOUR_MERCADOPAGO_ACCESS_TOKEN}
+  notification-url: ${MERCADOPAGO_NOTIFICATION_URL:http://localhost:8080/api/payments/webhook}

@@ -1,0 +1,28 @@
+# Entornos y Secretos
+.env
+.env.local
+
+# Frontend (Angular/Node)
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Backend (Java/Spring Boot)
+backend/target/
+backend/*.jar
+backend/*.war
+backend/*.class
+
+# IDEs y Editores
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
