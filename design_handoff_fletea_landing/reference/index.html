@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fletea · UI Kit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style id="fletea-tweaks-vars">
+:root{
+  --t-accent:#e94560;
+  --t-accent-hover:#d63851;
+  --t-accent-soft:rgba(233,69,96,.15);
+  --t-display-font:'Inter';
+  --t-display-weight:900;
+  --t-display-track:-0.03em;
+  --t-stage:#0a0a0f;
+  --t-stage-2:#111118;
+}
+</style>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:auto}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:#f5f5f5;background:#0a0a0f;line-height:1.5;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:clip;min-height:100vh;
+}
+img,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+@keyframes fletea-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fletea-pulse{0%,100%{opacity:1;transform:translateY(0)}50%{opacity:.4;transform:translateY(6px)}}
+@keyframes fleteaModalFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fleteaModalSlideUp{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes muvi-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes muvi-pulse{0%,100%{opacity:1;transform:translateY(0)}50%{opacity:.4;transform:translateY(6px)}}
+/* nav (UI-kit-only) */
+.nav{position:fixed;top:14px;right:14px;z-index:10000;display:flex;gap:6px;background:rgba(18,18,24,.92);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:5px}
+.nav button{background:transparent;color:rgba(245,245,245,.6);border:0;padding:6px 12px;border-radius:6px;font-size:11.5px;font-weight:700;letter-spacing:.04em;cursor:pointer;text-transform:uppercase}
+.nav button.active{background:var(--t-accent);color:#fff}
+.nav button:hover:not(.active){color:#f5f5f5;background:rgba(255,255,255,.06)}
+
+/* ─────────────────────────────────────────────
+   Responsive overrides
+   ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .fletea-page-logo{ top:14px !important; left:16px !important; gap:.5rem !important; }
+  .fletea-page-logo__img{ width:46px !important; height:46px !important; }
+  .fletea-page-logo__wordmark{ font-size:1.05rem !important; letter-spacing:.28em !important; }
+  .fletea-social-bar{ bottom:14px !important; left:14px !important; right:auto !important; gap:11px !important; }
+  .fletea-social-bubble{ width:50px !important; height:50px !important; }
+  .fletea-social-bubble svg{ width:25px !important; height:25px !important; }
+  .fletea-trust-chip{ bottom:4px !important; right:0 !important; left:auto !important; font-size:15px !important; padding:.65rem 1.3rem .65rem .8rem !important; }
+  .nav{ top:10px !important; right:10px !important; padding:4px !important; }
+  .nav button{ padding:5px 9px !important; font-size:10.5px !important; }
+}
+@media (max-width: 600px) {
+  .fletea-page-logo{ top:12px !important; left:12px !important; gap:.45rem !important; }
+  .fletea-page-logo__img{ width:38px !important; height:38px !important; }
+  .fletea-page-logo__wordmark{ font-size:.92rem !important; letter-spacing:.24em !important; }
+  /* Form: fit comfortably in viewport, no internal scroll, vertically centered */
+  .fletea-form-card{ max-height:none !important; padding:1.25rem 1rem !important; border-radius:16px !important; }
+  .fletea-form-card h2{ font-size:1.25rem !important; margin:0 0 .85rem !important; }
+  .fletea-social-bar{ bottom:10px !important; left:10px !important; right:auto !important;
+    gap:8px !important; }
+  .fletea-social-bubble{ width:42px !important; height:42px !important; }
+  .fletea-social-bubble svg{ width:20px !important; height:20px !important; }
+  .fletea-trust-chip{ bottom:10px !important; right:0 !important; left:auto !important; font-size:12.5px !important; padding:.5rem 1rem .5rem .6rem !important; }
+  .fletea-trust-chip span:first-child{ width:24px !important; height:24px !important; }
+  .fletea-trust-chip svg{ width:13px !important; height:13px !important; }
+  /* Modal: full-bleed bottom-sheet feel on mobile */
+  .fletea-quote-modal{ padding:1.4rem 1.1rem 1.2rem !important; border-radius:18px !important; }
+}
+@media (max-width: 380px) {
+  .fletea-page-logo__wordmark{ display:none !important; }
+  .fletea-form-card{ padding:1.4rem 1rem !important; }
+  .fletea-trust-chip span:last-child{ display:none !important; }
+  .fletea-trust-chip{ padding:.55rem .9rem .55rem .55rem !important; }
+}
+@media (max-height: 640px) {
+  .fletea-form-card{ max-height:none !important; padding:1.1rem 1rem !important; }
+  .fletea-form-card h2{ font-size:1.15rem !important; margin:0 0 .7rem !important; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" charset="utf-8" src="tweaks-panel.jsx"></script>
+<script type="text/babel" charset="utf-8" src="Brand.jsx"></script>
+<script type="text/babel" charset="utf-8" src="Form.jsx"></script>
+<script type="text/babel" charset="utf-8" src="Landing.jsx"></script>
+<script type="text/babel" charset="utf-8" src="Admin.jsx"></script>
+<script type="text/babel" charset="utf-8" src="PagoResultado.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#e94560",
+  "displayFont": "Inter",
+  "displayWeight": 900,
+  "displayTracking": -0.035,
+  "stage": "anthracite",
+  "richSemantic": true
+}/*EDITMODE-END*/;
+
+const ACCENT_VARIANTS = {
+  "#e94560": { hover: "#d63851", soft: "rgba(233,69,96,.15)", name: "Signal red (default)" },
+  "#ff6b3d": { hover: "#e85a2c", soft: "rgba(255,107,61,.15)",  name: "Cargo orange" },
+  "#22c55e": { hover: "#16a34a", soft: "rgba(34,197,94,.15)",   name: "Route green" },
+  "#3b82f6": { hover: "#2563eb", soft: "rgba(59,130,246,.15)",  name: "Signal blue" },
+};
+
+const STAGE_VARIANTS = {
+  anthracite: { bg: "#0a0a0f", bg2: "#111118", name: "Anthracite (default)" },
+  ink:        { bg: "#0b1220", bg2: "#13192b", name: "Deep ink" },
+  graphite:   { bg: "#16181d", bg2: "#1d2027", name: "Graphite" },
+};
+
+const FONT_OPTIONS = ["Inter", "Sora", "Space Grotesk", "Bricolage Grotesque", "DM Sans"];
+
+// inject Google Fonts for the available display fonts once
+(function loadFonts(){
+  const families = FONT_OPTIONS.map(f => f.replace(/ /g,"+") + ":wght@400;600;700;800;900").join("&family=");
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = `https://fonts.googleapis.com/css2?family=${families}&display=swap`;
+  document.head.appendChild(link);
+})();
+
+function applyTweaksToCSS(t) {
+  const root = document.documentElement;
+  const accent = ACCENT_VARIANTS[t.accent] || ACCENT_VARIANTS["#e94560"];
+  const stage = STAGE_VARIANTS[t.stage] || STAGE_VARIANTS.anthracite;
+  root.style.setProperty('--t-accent', t.accent);
+  root.style.setProperty('--t-accent-hover', accent.hover);
+  root.style.setProperty('--t-accent-soft', accent.soft);
+  root.style.setProperty('--t-display-font', `'${t.displayFont}'`);
+  root.style.setProperty('--t-display-weight', t.displayWeight);
+  root.style.setProperty('--t-display-track', `${t.displayTracking}em`);
+  root.style.setProperty('--t-stage', stage.bg);
+  root.style.setProperty('--t-stage-2', stage.bg2);
+  document.body.style.background = stage.bg;
+
+  // Richer semantic palette \u2014 push warm/cool/neutral undertones
+  if (t.richSemantic) {
+    root.style.setProperty('--fletea-success', '#10b981'); // emerald, cooler
+    root.style.setProperty('--fletea-warning', '#f59e0b'); // amber, warmer
+    root.style.setProperty('--fletea-error',   '#f43f5e'); // rose, warmer
+    root.style.setProperty('--fletea-info',    '#6366f1'); // indigo, cooler
+  } else {
+    root.style.removeProperty('--fletea-success');
+    root.style.removeProperty('--fletea-warning');
+    root.style.removeProperty('--fletea-error');
+    root.style.removeProperty('--fletea-info');
+  }
+}
+
+function App() {
+  const [screen, setScreen] = useState('landing');
+  const [pagoEstado, setPagoEstado] = useState('exitoso');
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => { applyTweaksToCSS(t); }, [t]);
+
+  // restore last screen
+  useEffect(() => {
+    const s = localStorage.getItem('fletea-kit-screen');
+    if (s) setScreen(s);
+  }, []);
+  useEffect(() => { localStorage.setItem('fletea-kit-screen', screen); }, [screen]);
+
+  // scroll-to-top on screen change
+  useEffect(() => { window.scrollTo(0, 0); }, [screen]);
+
+  const Nav = () => (
+    <nav className="nav" data-screen-label="kit-nav">
+      {['landing','admin','pago'].map(s => (
+        <button key={s}
+          className={screen === s ? 'active' : ''}
+          onClick={() => setScreen(s)}>
+          {s === 'pago' ? 'Pago' : s.charAt(0).toUpperCase() + s.slice(1)}
+        </button>
+      ))}
+    </nav>
+  );
+
+  let body = null;
+  if (screen === 'landing') {
+    body = <div data-screen-label="01 Landing">
+      <FleteaLanding onReservar={() => { setPagoEstado('exitoso'); setScreen('pago'); }} />
+    </div>;
+  } else if (screen === 'admin') {
+    body = <div data-screen-label="02 Admin">
+      <FleteaAdmin />
+    </div>;
+  } else {
+    body = <div data-screen-label="03 Pago resultado">
+      <div style={{position:'fixed',top:14,left:14,zIndex:10000,display:'flex',gap:6,background:'rgba(18,18,24,.92)',backdropFilter:'blur(12px)',border:'1px solid rgba(255,255,255,.08)',borderRadius:10,padding:5}}>
+        {['exitoso','fallido','pendiente'].map(e => (
+          <button key={e} onClick={() => setPagoEstado(e)} style={{
+            background: pagoEstado === e ? 'var(--t-accent)' : 'transparent',
+            color: pagoEstado === e ? '#fff' : 'rgba(245,245,245,.6)',
+            border: 0, padding: '6px 12px', borderRadius: 6,
+            fontSize: 11.5, fontWeight: 700, letterSpacing: '.04em',
+            cursor: 'pointer', textTransform: 'uppercase',
+          }}>{e}</button>
+        ))}
+      </div>
+      <FleteaPagoResultado estado={pagoEstado} onVolver={() => setScreen('landing')} />
+    </div>;
+  }
+
+  return <>
+    <TweaksPanel title="Tweaks">
+      <TweakSection title="Accent">
+        <TweakColor
+          value={t.accent}
+          options={Object.keys(ACCENT_VARIANTS)}
+          onChange={(v) => setTweak('accent', v)} />
+        <div style={{fontSize:11,color:'rgba(245,245,245,.5)',marginTop:6}}>
+          {ACCENT_VARIANTS[t.accent]?.name}
+        </div>
+      </TweakSection>
+
+      <TweakSection title="Stage">
+        <TweakRadio
+          value={t.stage}
+          options={[
+            {value:'anthracite',label:'Anthracite'},
+            {value:'ink',label:'Ink'},
+            {value:'graphite',label:'Graphite'},
+          ]}
+          onChange={(v) => setTweak('stage', v)} />
+      </TweakSection>
+
+      <TweakSection title="Display type">
+        <TweakSelect
+          value={t.displayFont}
+          options={FONT_OPTIONS}
+          onChange={(v) => setTweak('displayFont', v)} />
+        <TweakSlider label="Weight" min={400} max={900} step={100}
+          value={t.displayWeight}
+          onChange={(v) => setTweak('displayWeight', v)} />
+        <TweakSlider label="Tracking" min={-0.06} max={0.02} step={0.005}
+          value={t.displayTracking}
+          onChange={(v) => setTweak('displayTracking', v)} />
+      </TweakSection>
+
+      <TweakSection title="Semantic palette">
+        <TweakToggle label="Rich (warm/cool/neutral)"
+          value={t.richSemantic}
+          onChange={(v) => setTweak('richSemantic', v)} />
+      </TweakSection>
+    </TweaksPanel>
+    <Nav />
+    {body}
+  </>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

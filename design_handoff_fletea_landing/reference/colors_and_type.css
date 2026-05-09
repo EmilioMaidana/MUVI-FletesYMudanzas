@@ -1,0 +1,198 @@
+/* ============================================================
+   MUVI — Colors & Type
+   Source of truth: extracted from frontend/src/styles.css and
+   landing.component.css of EmilioMaidana/MUVI-FletesYMudanzas.
+   ============================================================ */
+
+/* Inter is loaded via Google Fonts in index.html; weights used: 400, 600, 700, 900 */
+
+:root {
+  /* ---------- Brand / Primaries ---------- */
+  --fletea-primary:        #0a0a0f;   /* near-black / hero & loader background */
+  --fletea-primary-light:  #111118;   /* subtle elevation on dark */
+  --fletea-accent:         #e94560;   /* signal red — CTAs, focus, highlights */
+  --fletea-accent-hover:   #d63851;   /* hover/pressed accent */
+
+  /* ---------- Surfaces ---------- */
+  --fletea-bg-dark:        #0a0a0f;
+  --fletea-bg-dark-2:      #111118;
+  --fletea-bg-light:       #f8f9fa;   /* admin + result page background */
+  --fletea-white:          #ffffff;
+  --fletea-glass:          rgba(18, 18, 24, 0.92);  /* form-card on dark */
+
+  /* ---------- Foregrounds ---------- */
+  --fletea-fg-dark:        #16213e;   /* admin headings on light */
+  --fletea-fg-light:       #f5f5f5;   /* body text on dark */
+  --fletea-fg-muted:       #6c757d;   /* light-bg secondary text */
+  --fletea-fg-muted-light: rgba(245, 245, 245, 0.55); /* dark-bg secondary text */
+  --fletea-fg-tertiary:    rgba(245, 245, 245, 0.35); /* dark-bg tertiary */
+  --fletea-fg-quaternary:  rgba(245, 245, 245, 0.25); /* placeholders */
+
+  /* ---------- Lines / hairlines (on dark) ---------- */
+  --fletea-line-1:         rgba(255, 255, 255, 0.04);
+  --fletea-line-2:         rgba(255, 255, 255, 0.08);
+  --fletea-line-3:         rgba(255, 255, 255, 0.10);
+  --fletea-line-strong:    rgba(255, 255, 255, 0.20);
+
+  /* ---------- Semantic ---------- */
+  --fletea-success:        #22c55e;   /* "Reservar y pagar seña" button */
+  --fletea-success-hover:  #16a34a;
+  --fletea-success-soft-bg:  #d4edda; /* badge */
+  --fletea-success-soft-fg:  #155724;
+
+  --fletea-warning-soft-bg:  #fff3cd; /* PENDIENTE_PAGO badge */
+  --fletea-warning-soft-fg:  #856404;
+  --fletea-warning-strong:   #ffc107; /* "Pago pendiente" icon */
+
+  --fletea-info-soft-bg:     #d1ecf1; /* COMPLETADO badge */
+  --fletea-info-soft-fg:     #0c5460;
+
+  --fletea-danger:           #dc3545; /* "Pago fallido" icon */
+  --fletea-danger-bg:        rgba(239, 68, 68, 0.12);
+  --fletea-danger-line:      rgba(239, 68, 68, 0.30);
+  --fletea-danger-fg:        #fca5a5; /* error text on dark */
+
+  /* ---------- Type ---------- */
+  --fletea-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --fletea-fs-display: clamp(2.8rem, 7vw, 5.5rem); /* hero title */
+  --fletea-fs-subtitle: clamp(1rem, 2.2vw, 1.4rem);
+  --fletea-fs-h1: 1.8rem;     /* admin h1 */
+  --fletea-fs-h2: 1.6rem;     /* form-card h2 */
+  --fletea-fs-h2-lg: 1.8rem;  /* >=1440 form h2 */
+  --fletea-fs-body: 0.95rem;  /* form input */
+  --fletea-fs-body-sm: 0.9rem;
+  --fletea-fs-caption: 0.75rem;
+  --fletea-fs-overline: 0.7rem;
+  --fletea-fs-micro: 0.65rem;
+
+  --fletea-fw-regular: 400;
+  --fletea-fw-semibold: 600;
+  --fletea-fw-bold: 700;
+  --fletea-fw-extrabold: 800;
+  --fletea-fw-black: 900;
+
+  --fletea-tracking-tight: -0.03em;
+  --fletea-tracking-snug:  -0.01em;
+  --fletea-tracking-wide:   0.05em;
+  --fletea-tracking-overline: 0.08em;
+  --fletea-tracking-loader: 0.20em;
+  --fletea-tracking-brand:  0.25em;
+
+  --fletea-leading-display: 1.05;
+  --fletea-leading-body: 1.5;
+  --fletea-leading-relaxed: 1.6;
+
+  /* ---------- Radii ---------- */
+  --fletea-radius-xs:  2px;   /* loader bar */
+  --fletea-radius-sm:  8px;   /* admin buttons, badges-corner */
+  --fletea-radius-md: 10px;   /* inputs, primary button */
+  --fletea-radius-lg: 12px;   /* quote card, table */
+  --fletea-radius-xl: 16px;   /* result card */
+  --fletea-radius-2xl: 20px;  /* form-card */
+  --fletea-radius-pill: 20px; /* badge */
+  --fletea-radius-sheet: 24px;/* mobile sheet */
+
+  /* ---------- Spacing scale (rem) ---------- */
+  --fletea-sp-1: 0.25rem;
+  --fletea-sp-2: 0.5rem;
+  --fletea-sp-3: 0.75rem;
+  --fletea-sp-4: 1rem;
+  --fletea-sp-5: 1.25rem;
+  --fletea-sp-6: 1.5rem;
+  --fletea-sp-8: 2rem;
+  --fletea-sp-10: 2.5rem;
+  --fletea-sp-12: 3rem;
+
+  /* ---------- Shadows ---------- */
+  --fletea-shadow-card:        0 4px 20px rgba(0, 0, 0, 0.10);                    /* admin table */
+  --fletea-shadow-form:        0 30px 80px rgba(0, 0, 0, 0.60),
+                             0 0 0 1px rgba(255, 255, 255, 0.04) inset;         /* glass form-card */
+  --fletea-shadow-sheet:      -0 -15px 50px rgba(0, 0, 0, 0.50);                  /* mobile bottom sheet */
+  --fletea-shadow-cta:         0 4px 20px rgba(233, 69, 96, 0.35);                /* primary button rest */
+  --fletea-shadow-cta-hover:   0 8px 25px rgba(233, 69, 96, 0.45);
+  --fletea-shadow-success:     0 4px 20px rgba(34, 197, 94, 0.35);
+  --fletea-shadow-success-hover:0 8px 25px rgba(34, 197, 94, 0.45);
+  --fletea-shadow-focus-ring:  0 0 0 3px rgba(233, 69, 96, 0.15);
+
+  /* ---------- Effects ---------- */
+  --fletea-blur-glass: 24px;
+  --fletea-blur-sheet: 6px;
+
+  /* ---------- Motion ---------- */
+  --fletea-ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --fletea-dur-fast:   0.20s;
+  --fletea-dur-base:   0.25s;
+  --fletea-dur-med:    0.50s;
+  --fletea-dur-long:   0.70s;
+}
+
+/* ============================================================
+   Semantic recipes — drop these on real elements.
+   ============================================================ */
+
+.fletea-display {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-black);
+  font-size: var(--fletea-fs-display);
+  line-height: var(--fletea-leading-display);
+  letter-spacing: var(--fletea-tracking-tight);
+  color: var(--fletea-white);
+}
+
+.muvi-h1 {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-bold);
+  font-size: var(--fletea-fs-h1);
+  color: var(--fletea-fg-dark);
+  letter-spacing: var(--fletea-tracking-snug);
+}
+
+.muvi-h2 {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-extrabold);
+  font-size: var(--fletea-fs-h2);
+  color: var(--fletea-fg-light);
+  letter-spacing: var(--fletea-tracking-snug);
+}
+
+.fletea-subtitle {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-regular);
+  font-size: var(--fletea-fs-subtitle);
+  color: var(--fletea-fg-muted-light);
+  line-height: var(--fletea-leading-relaxed);
+}
+
+.muvi-body {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-regular);
+  font-size: var(--fletea-fs-body);
+  color: var(--fletea-fg-light);
+  line-height: var(--fletea-leading-body);
+}
+
+.muvi-overline {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-bold);
+  font-size: var(--fletea-fs-overline);
+  text-transform: uppercase;
+  letter-spacing: var(--fletea-tracking-overline);
+  color: var(--fletea-fg-muted-light);
+}
+
+.muvi-scroll-hint {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-semibold);
+  font-size: var(--fletea-fs-caption);
+  text-transform: uppercase;
+  letter-spacing: var(--fletea-tracking-loader);
+  color: var(--fletea-fg-tertiary);
+}
+
+.muvi-brand-mark {
+  font-family: var(--fletea-font-sans);
+  font-weight: var(--fletea-fw-black);
+  letter-spacing: var(--fletea-tracking-brand);
+  color: var(--fletea-fg-light);
+}

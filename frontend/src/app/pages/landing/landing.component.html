@@ -1,6 +1,6 @@
-<main class="landing">
+<main class="fletea-landing">
 
-  <!-- ===== LOADER OVERLAY — pantalla completa mientras cargan las imágenes ===== -->
+  <!-- ===== LOADER OVERLAY — full-bleed until ≥32 frames buffered ===== -->
   <div class="loader-overlay" *ngIf="!imagesLoaded">
     <div class="loader-content">
       <div class="loader-logo">
@@ -10,86 +10,152 @@
       <div class="loader-bar">
         <div class="loader-fill" [style.width.%]="loadingProgress"></div>
       </div>
-      <span class="loader-percent">{{ loadingProgress }}%</span>
+      <span class="loader-percent">Cargando flota… {{ loadingProgress }}%</span>
     </div>
   </div>
 
-  <!-- ===== SECCIÓN PRINCIPAL — canvas sticky + animación por scroll ===== -->
+  <!-- ===== PERSISTENT FIXED ELEMENTS (always visible) ===== -->
+
+  <!-- Page logo top-left — click resets scroll to start -->
+  <a href="#top"
+     class="page-logo"
+     (click)="onPageLogoClick($event)"
+     aria-label="Volver al inicio">
+    <img src="assets/logo-fletea.png" alt="Fletea" class="page-logo__img">
+    <span class="page-logo__wordmark">FLETEA</span>
+  </a>
+
+  <!-- Frame counter top-right — opacity from CSS var --counter-opacity -->
+  <div class="progress-chip">
+    {{ scrollProgressDisplay }} / 100
+  </div>
+
+  <!-- Trust chip bottom-right — pill emerging from edge.
+       Mobile: collapses to disc; tap expands.
+       Mutually exclusive with social bar on mobile. -->
+  <a href="#"
+     class="trust-chip"
+     [class.trust-chip--expanded]="trustExpanded"
+     [class.trust-chip--mobile-collapsed]="isMobile && !trustExpanded"
+     (click)="onTrustChipClick($event)"
+     [attr.aria-expanded]="trustExpanded"
+     [attr.aria-label]="trustExpanded ? '+1.000 fletes realizados' : 'Mostrar fletes realizados'">
+    <span class="trust-chip__disc">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+        <path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="3"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="trust-chip__text">+1.000 fletes realizados</span>
+    <span class="trust-chip__close"
+          *ngIf="isMobile && trustExpanded"
+          (click)="onTrustChipClose($event)"
+          aria-label="Cerrar">×</span>
+  </a>
+
+  <!-- Social bar bottom-left.
+       Desktop: 4 bubbles in a row.
+       Mobile collapsed: + FAB; tap expands bubbles horizontally. -->
+  <div class="social-bar"
+       [class.social-bar--mobile-collapsed]="isMobile && !socialExpanded">
+    <button *ngIf="isMobile"
+            class="social-toggle"
+            [class.social-toggle--open]="socialExpanded"
+            (click)="onSocialToggle()"
+            [attr.aria-expanded]="socialExpanded"
+            [attr.aria-label]="socialExpanded ? 'Cerrar redes' : 'Abrir redes'">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="social-bubbles" [class.social-bubbles--visible]="socialBubblesVisible">
+      <a *ngFor="let s of socialLinks"
+         [href]="s.href"
+         target="_blank"
+         rel="noreferrer"
+         [attr.aria-label]="s.name"
+         class="social-bubble">
+        <img [src]="s.img" [alt]="s.name">
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== SCROLL-BOUND CANVAS SECTION ===== -->
   <section class="scroll-section" #scrollContainer>
     <div class="sticky-wrapper">
 
-      <!-- Canvas: dibuja cada frame del camión -->
       <canvas #scrollCanvas class="truck-canvas"></canvas>
 
-      <!-- Viñeta perimetral para legibilidad -->
+      <!-- Vignette + bottom gradient (legibility over frame 1) -->
       <div class="vignette-overlay"></div>
 
-      <!-- Intro overlay — se ve al entrar y desaparece al scrollear
-           La opacidad y el translate se manejan desde JS via CSS vars:
-           --intro-opacity y --intro-ty  -->
-      <div class="intro-overlay">
-        <div class="intro-header">
-          <img src="assets/logo-fletea.png" alt="Fletea" class="intro-logo">
-          <span class="intro-wordmark">FLETEA</span>
-        </div>
+      <!-- ===== COVER OVERLAY — fades on scroll via CSS vars ===== -->
 
-        <div class="intro-center">
-          <h1 class="intro-title">¿Necesitás un flete?</h1>
-          <p class="intro-subtitle">Cotizá al instante · Reservá en minutos</p>
-        </div>
+      <!-- Brand mark (top center): "FLETES Y MUDANZAS · AL INSTANTE" -->
+      <div class="cover-brand-mark">
+        <span>Fletes y mudanzas · al instante</span>
+      </div>
 
-        <div class="intro-footer">
-          <span class="intro-hint-text">Scrolleá para explorar</span>
-          <div class="intro-arrow">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M12 4v16m0 0l-6-6m6 6l6-6"
-                    stroke="currentColor" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+      <!-- Title block (centered) -->
+      <div class="cover-title-block">
+        <h1 class="cover-title">¿Necesitás un flete?</h1>
+        <p class="cover-subtitle">Cotizá al instante · Reservá en minutos</p>
+      </div>
+
+      <!-- Scroll cue (bottom center) -->
+      <div class="cover-cue">
+        <span class="cover-cue__text">Scrolleá para cotizar</span>
+        <div class="cover-cue__arrow">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <path d="M12 4v16m0 0l-6-6m6 6l6-6"
+                  stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
 
-      <!-- Mini barra de carga (visible mientras el intro-overlay cubre todo) -->
-      <div class="load-hint" *ngIf="!imagesLoaded">
-        <span class="load-hint-bar">
-          <span class="load-hint-fill" [style.width.%]="loadingProgress"></span>
-        </span>
-        Cargando · {{ loadingProgress }}%
-      </div>
-
-      <!-- Chip de progreso de scroll — aparece a medida que el intro desaparece -->
-      <div class="progress-chip">{{ scrollProgressDisplay }} / 100</div>
-
-      <!-- Formulario de cotización — entra al 92% del scroll -->
-      <div class="form-overlay" [class.visible]="showForm">
+      <!-- ===== FORM CARD — appears at scroll ≥ 92% ===== -->
+      <div class="form-overlay" [class.form-overlay--visible]="showForm">
         <div class="form-card">
-          <h2>Cotizá tu flete</h2>
+          <div class="form-overline">Tu flete · paso 1 de 2</div>
+          <h2 class="form-title">Cotizá tu flete</h2>
 
           <div class="form-group">
             <label for="nombre">Nombre completo</label>
-            <input id="nombre" type="text" [(ngModel)]="formData.nombreCompleto" placeholder="Tu nombre completo">
+            <input id="nombre" type="text"
+                   [(ngModel)]="formData.nombreCompleto"
+                   placeholder="Tu nombre completo"
+                   autocomplete="name">
           </div>
 
           <div class="form-group">
             <label for="telefono">Teléfono</label>
-            <input id="telefono" type="tel" [(ngModel)]="formData.telefono" placeholder="11-XXXX-XXXX">
+            <input id="telefono" type="tel"
+                   [(ngModel)]="formData.telefono"
+                   placeholder="11-XXXX-XXXX"
+                   autocomplete="tel">
           </div>
 
           <div class="form-group">
             <label for="email">Email</label>
-            <input id="email" type="email" [(ngModel)]="formData.email" placeholder="tu@email.com">
+            <input id="email" type="email"
+                   [(ngModel)]="formData.email"
+                   placeholder="tu@email.com"
+                   autocomplete="email">
           </div>
 
           <div class="form-group">
             <label for="origen">Origen</label>
-            <input #origenInput id="origen" type="text" [(ngModel)]="formData.origen"
+            <input #origenInput id="origen" type="text"
+                   [(ngModel)]="formData.origen"
                    placeholder="¿Desde dónde retiramos?">
           </div>
 
           <div class="form-group">
             <label for="destino">Destino</label>
-            <input #destinoInput id="destino" type="text" [(ngModel)]="formData.destino"
+            <input #destinoInput id="destino" type="text"
+                   [(ngModel)]="formData.destino"
                    placeholder="¿A dónde llevamos?">
           </div>
 
@@ -104,33 +170,59 @@
             </div>
           </div>
 
-          <button class="btn-primary" (click)="cotizar()" [disabled]="cargandoCotizacion">
+          <button class="btn-primary"
+                  (click)="cotizar()"
+                  [disabled]="cargandoCotizacion">
             {{ cargandoCotizacion ? 'Calculando...' : 'Calcular precio' }}
           </button>
 
           <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
-
-          <div class="quote-result" *ngIf="cotizacion">
-            <div class="quote-row">
-              <span>Distancia total</span>
-              <strong>{{ cotizacion.distanciaKm | number:'1.1-1' }} km</strong>
-            </div>
-            <div class="quote-row">
-              <span>Costo total</span>
-              <strong>$ {{ cotizacion.costoTotal | number:'1.0-0' }}</strong>
-            </div>
-            <div class="quote-row quote-highlight">
-              <span>Seña a abonar (15%)</span>
-              <strong>$ {{ cotizacion.montoSena | number:'1.0-0' }}</strong>
-            </div>
-            <button class="btn-success" (click)="reservar()" [disabled]="cargandoReserva">
-              {{ cargandoReserva ? 'Procesando...' : 'Reservar y pagar seña' }}
-            </button>
-          </div>
         </div>
       </div>
 
     </div>
   </section>
+
+  <!-- ===== QUOTE MODAL — popup with backdrop ===== -->
+  <div class="quote-modal-backdrop"
+       *ngIf="cotizacion"
+       (click)="closeQuoteModal()"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Resultado de cotización">
+    <div class="quote-modal" (click)="$event.stopPropagation()">
+      <button class="quote-modal__close"
+              (click)="closeQuoteModal()"
+              aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="quote-modal__overline">Tu cotización · paso 2 de 2</div>
+      <h2 class="quote-modal__title">Listo, tu flete</h2>
+
+      <div class="quote-row">
+        <span>Distancia total</span>
+        <strong>{{ cotizacion.distanciaKm | number:'1.1-1' }} km</strong>
+      </div>
+      <div class="quote-row">
+        <span>Costo total</span>
+        <strong>$ {{ cotizacion.costoTotal | number:'1.0-0' }}</strong>
+      </div>
+      <div class="quote-row quote-row--highlight">
+        <span>Seña a abonar (15%)</span>
+        <strong>$ {{ cotizacion.montoSena | number:'1.0-0' }}</strong>
+      </div>
+
+      <button class="btn-success"
+              (click)="reservar()"
+              [disabled]="cargandoReserva">
+        {{ cargandoReserva ? 'Procesando...' : 'Reservar y pagar seña' }}
+      </button>
+    </div>
+  </div>
 
 </main>

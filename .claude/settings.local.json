@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p frontend/src/assets/webp)",
+      "Bash(mv webp/*.webp frontend/src/assets/webp/)",
+      "Bash(rmdir webp *)"
+    ]
+  }
+}

@@ -51,17 +51,29 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
       box-shadow: var(--shadow);
       max-width: 500px;
       width: 100%;
+      animation: pago-card-in 0.45s cubic-bezier(0.20, 0.80, 0.20, 1);
     }
 
     .icon {
       font-size: 4rem;
       margin-bottom: 1rem;
       line-height: 1;
+      animation: pago-icon-in 0.55s cubic-bezier(0.20, 0.80, 0.20, 1) 0.1s backwards;
     }
 
-    .exitoso .icon { color: #28a745; }
-    .fallido .icon { color: #dc3545; }
-    .pendiente .icon { color: #ffc107; }
+    .exitoso .icon { color: var(--fletea-success, #22c55e); }
+    .fallido .icon { color: var(--fletea-danger, #dc3545); }
+    .pendiente .icon { color: var(--fletea-warning-strong, #ffc107); }
+
+    @keyframes pago-card-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pago-icon-in {
+      from { opacity: 0; transform: scale(0.5); }
+      to   { opacity: 1; transform: scale(1); }
+    }
 
     h1 {
       margin: 0 0 1rem;
@@ -141,6 +153,15 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
       p {
         font-size: 0.9rem;
       }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .resultado-card,
+      .icon {
+        animation: none !important;
+      }
+      .btn-volver:active { transform: none; }
     }
 
     /* Landscape mobile */

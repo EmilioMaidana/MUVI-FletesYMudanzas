@@ -1,3 +1,6 @@
+/* ============================================
+   RESET
+   ============================================ */
 *,
 *::before,
 *::after {
@@ -6,61 +9,174 @@
   box-sizing: border-box;
 }
 
+/* ============================================
+   FLETEA — Design tokens
+   Full token set from design_handoff_fletea_landing/reference/colors_and_type.css
+   Plus shorthand --t-* aliases used inline in components.
+   ============================================ */
 :root {
-  --primary: #0a0a0f;
-  --primary-light: #111118;
-  --accent: #e94560;
-  --accent-hover: #d63851;
-  --accent-soft: rgba(233, 69, 96, 0.15);
-  --bg-light: #f8f9fa;
-  --text-dark: #16213e;
-  --text-light: #f5f5f5;
-  --text-muted: #6c757d;
-  --text-muted-light: rgba(245, 245, 245, 0.5);
-  --white: #ffffff;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* ---------- Brand / Primaries ---------- */
+  --fletea-primary:        #0a0a0f;
+  --fletea-primary-light:  #111118;
+  --fletea-accent:         #e94560;
+  --fletea-accent-hover:   #d63851;
 
-  /* Design system tokens */
-  --t-accent: #e94560;
-  --t-accent-hover: #d63851;
+  /* ---------- Surfaces ---------- */
+  --fletea-bg-dark:        #0a0a0f;
+  --fletea-bg-dark-2:      #111118;
+  --fletea-bg-light:       #f8f9fa;
+  --fletea-white:          #ffffff;
+  --fletea-glass:          rgba(18, 18, 24, 0.92);
+
+  /* ---------- Foregrounds ---------- */
+  --fletea-fg-dark:        #16213e;
+  --fletea-fg-light:       #f5f5f5;
+  --fletea-fg-muted:       #6c757d;
+  --fletea-fg-muted-light: rgba(245, 245, 245, 0.55);
+  --fletea-fg-tertiary:    rgba(245, 245, 245, 0.35);
+  --fletea-fg-quaternary:  rgba(245, 245, 245, 0.25);
+
+  /* ---------- Lines / hairlines (on dark) ---------- */
+  --fletea-line-1:         rgba(255, 255, 255, 0.04);
+  --fletea-line-2:         rgba(255, 255, 255, 0.08);
+  --fletea-line-3:         rgba(255, 255, 255, 0.10);
+  --fletea-line-strong:    rgba(255, 255, 255, 0.20);
+
+  /* ---------- Semantic ---------- */
+  --fletea-success:        #22c55e;
+  --fletea-success-hover:  #16a34a;
+  --fletea-success-soft-bg:  #d4edda;
+  --fletea-success-soft-fg:  #155724;
+
+  --fletea-warning-soft-bg:  #fff3cd;
+  --fletea-warning-soft-fg:  #856404;
+  --fletea-warning-strong:   #ffc107;
+
+  --fletea-info-soft-bg:     #d1ecf1;
+  --fletea-info-soft-fg:     #0c5460;
+
+  --fletea-danger:           #dc3545;
+  --fletea-danger-bg:        rgba(239, 68, 68, 0.12);
+  --fletea-danger-line:      rgba(239, 68, 68, 0.30);
+  --fletea-danger-fg:        #fca5a5;
+
+  /* ---------- Type ---------- */
+  --fletea-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fletea-fs-display: clamp(2.8rem, 7vw, 5.5rem);
+  --fletea-fs-subtitle: clamp(1rem, 2.2vw, 1.4rem);
+  --fletea-fs-h1: 1.8rem;
+  --fletea-fs-h2: 1.6rem;
+  --fletea-fs-h2-lg: 1.8rem;
+  --fletea-fs-body: 0.95rem;
+  --fletea-fs-body-sm: 0.9rem;
+  --fletea-fs-caption: 0.75rem;
+  --fletea-fs-overline: 0.7rem;
+  --fletea-fs-micro: 0.65rem;
+
+  --fletea-fw-regular: 400;
+  --fletea-fw-semibold: 600;
+  --fletea-fw-bold: 700;
+  --fletea-fw-extrabold: 800;
+  --fletea-fw-black: 900;
+
+  --fletea-tracking-tight: -0.03em;
+  --fletea-tracking-snug:  -0.01em;
+  --fletea-tracking-wide:   0.05em;
+  --fletea-tracking-overline: 0.08em;
+  --fletea-tracking-loader: 0.20em;
+  --fletea-tracking-brand:  0.25em;
+
+  /* ---------- Radii ---------- */
+  --fletea-radius-xs:  2px;
+  --fletea-radius-sm:  8px;
+  --fletea-radius-md: 10px;
+  --fletea-radius-lg: 12px;
+  --fletea-radius-xl: 16px;
+  --fletea-radius-2xl: 20px;
+  --fletea-radius-pill: 999px;
+
+  /* ---------- Shadows ---------- */
+  --fletea-shadow-card:        0 4px 20px rgba(0, 0, 0, 0.10);
+  --fletea-shadow-form:        0 30px 80px rgba(0, 0, 0, 0.60),
+                               0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  --fletea-shadow-modal:       0 40px 120px rgba(0, 0, 0, 0.70);
+  --fletea-shadow-cta:         0 4px 20px rgba(233, 69, 96, 0.35);
+  --fletea-shadow-cta-hover:   0 8px 25px rgba(233, 69, 96, 0.45);
+  --fletea-shadow-success:     0 4px 20px rgba(34, 197, 94, 0.35);
+  --fletea-shadow-success-hover:0 8px 25px rgba(34, 197, 94, 0.45);
+  --fletea-shadow-focus-ring:  0 0 0 3px rgba(233, 69, 96, 0.15);
+  --fletea-shadow-chip:        -10px 8px 28px rgba(0, 0, 0, 0.50);
+  --fletea-shadow-bubble:      0 5px 16px rgba(0, 0, 0, 0.45);
+  --fletea-shadow-bubble-hover:0 10px 28px rgba(0, 0, 0, 0.55), 0 0 0 2px rgba(233, 69, 96, 0.45);
+
+  /* ---------- Effects ---------- */
+  --fletea-blur-glass: 24px;
+  --fletea-blur-modal: 8px;
+
+  /* ---------- Motion ---------- */
+  --fletea-ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --fletea-ease-pop:   cubic-bezier(0.20, 0.80, 0.20, 1);
+  --fletea-dur-fast:   0.20s;
+  --fletea-dur-base:   0.25s;
+  --fletea-dur-med:    0.35s;
+  --fletea-dur-long:   0.70s;
+
+  /* ============================================
+     COMPACT ALIASES (--t-*) used in component code
+     ============================================ */
+  --primary: var(--fletea-primary);
+  --primary-light: var(--fletea-primary-light);
+  --accent: var(--fletea-accent);
+  --accent-hover: var(--fletea-accent-hover);
+  --accent-soft: rgba(233, 69, 96, 0.15);
+  --bg-light: var(--fletea-bg-light);
+  --text-dark: var(--fletea-fg-dark);
+  --text-light: var(--fletea-fg-light);
+  --text-muted: var(--fletea-fg-muted);
+  --text-muted-light: rgba(245, 245, 245, 0.5);
+  --white: var(--fletea-white);
+  --shadow: var(--fletea-shadow-card);
+
+  --t-accent: var(--fletea-accent);
+  --t-accent-hover: var(--fletea-accent-hover);
   --t-accent-soft: rgba(233, 69, 96, 0.15);
   --t-display-font: 'Inter';
   --t-display-weight: 900;
   --t-display-track: -0.03em;
-  --t-stage: #0a0a0f;
-  --t-stage-2: #111118;
+  --t-stage: var(--fletea-primary);
+  --t-stage-2: var(--fletea-primary-light);
 
-  /* Safe-area fallbacks for notched devices */
+  /* Safe-area for notched devices */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
 }
 
+/* ============================================
+   GLOBALS
+   ============================================ */
 html {
   scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Prevent horizontal scroll on any device */
   overflow-x: hidden;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: var(--text-light);
-  background: var(--t-stage);
+  font-family: var(--fletea-font-sans);
+  color: var(--fletea-fg-light);
+  background: var(--fletea-bg-dark);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* IMPORTANT: use 'clip' NOT 'hidden' — hidden breaks position:sticky */
+  /* IMPORTANT: 'clip' not 'hidden' — hidden breaks position:sticky */
   overflow-x: clip;
   min-height: 100vh;
   min-height: 100dvh;
-  /* Smooth momentum scroll on iOS */
   -webkit-overflow-scrolling: touch;
 }
 
-/* Fallback for browsers that don't support overflow-x: clip */
 @supports not (overflow-x: clip) {
   body {
     overflow-x: hidden;
@@ -81,16 +197,17 @@ button {
   font-family: inherit;
 }
 
-/* Prevent tap highlight on mobile */
 a, button, input, textarea, select {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Smoother font rendering on all OS */
 h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
 }
 
+/* ============================================
+   ANIMATIONS — global keyframes
+   ============================================ */
 @keyframes fletea-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -101,9 +218,18 @@ h1, h2, h3, h4, h5, h6 {
   50% { opacity: 0.4; transform: translateY(6px); }
 }
 
+@keyframes fleteaModalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fleteaModalSlideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 /* ============================================
-   Google Places Autocomplete — consistent
-   styling across all breakpoints
+   GOOGLE PLACES AUTOCOMPLETE — dark theme
    ============================================ */
 .pac-container {
   z-index: 99999 !important;
@@ -112,7 +238,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 12px !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
   margin-top: 4px !important;
-  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-family: var(--fletea-font-sans) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   padding: 4px 0 !important;
@@ -144,7 +270,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pac-matched {
-  color: var(--t-accent) !important;
+  color: var(--fletea-accent) !important;
   font-weight: 700 !important;
 }
 
@@ -152,7 +278,6 @@ h1, h2, h3, h4, h5, h6 {
   display: none !important;
 }
 
-/* Google Places: mobile-friendly touch targets */
 @media (max-width: 768px) {
   .pac-item {
     padding: 14px 16px !important;
@@ -160,7 +285,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Hide Google Maps branding on autocomplete */
 .pac-container::after {
   display: none !important;
 }
