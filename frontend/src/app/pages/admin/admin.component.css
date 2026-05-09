@@ -137,6 +137,32 @@
   cursor: not-allowed;
 }
 
+/* Disable hover transform on touch devices to prevent stuck-hover state */
+@media (hover: none) {
+  .btn-login:hover:not(:disabled),
+  .btn-refresh:hover:not(:disabled),
+  .btn-logout:hover:not(:disabled) {
+    background: var(--accent);
+    transform: none;
+  }
+  .btn-logout:hover:not(:disabled) {
+    background: transparent;
+    color: var(--text-muted);
+  }
+}
+
+/* Keyboard focus ring */
+.btn-login:focus-visible,
+.btn-refresh:focus-visible,
+.btn-logout:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.input-group input:focus-visible {
+  outline: none; /* the existing border + box-shadow IS the focus ring */
+}
+
 /* ============================================
    ADMIN PANEL
    ============================================ */

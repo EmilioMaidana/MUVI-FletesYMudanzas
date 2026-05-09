@@ -89,6 +89,14 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   private bodyOverflowBackup = '';
 
   // ====== Computed getters used by template ======
+
+  /** ISO date (YYYY-MM-DD) for input[type=date] min attribute — prevents past dates */
+  get todayIso(): string {
+    const d = new Date();
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d.getTime() - tz).toISOString().slice(0, 10);
+  }
+
   get trustExpanded(): boolean {
     return !this.isMobile || this.openPanel === 'chip';
   }

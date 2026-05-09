@@ -149,16 +149,15 @@
    ============================================ */
 .trust-chip {
   position: fixed;
-  bottom: 12px;
+  bottom: calc(12px + var(--safe-bottom, 0px));
   right: 0;
   z-index: 50;
   display: inline-flex;
   align-items: center;
   gap: 0.77rem;
   padding: 0.77rem 1.6rem 0.77rem 0.98rem;
-  background: rgba(18, 18, 24, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* Solid fallback */
+  background: rgba(18, 18, 24, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-right: none;
   border-top-left-radius: 999px;
@@ -249,9 +248,8 @@
   height: 44px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(18, 18, 24, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* Solid fallback */
+  background: rgba(18, 18, 24, 0.95);
   color: var(--fletea-fg-light);
   display: inline-flex;
   align-items: center;
@@ -335,8 +333,9 @@
   }
 
   .social-bubble {
-    width: 42px;
-    height: 42px;
+    /* Min 44px tap target per WCAG 2.5.5 */
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -518,13 +517,21 @@
 .form-card {
   width: 100%;
   max-width: 420px;
-  background: rgba(18, 18, 24, 0.92);
-  backdrop-filter: blur(var(--fletea-blur-glass));
-  -webkit-backdrop-filter: blur(var(--fletea-blur-glass));
+  /* Solid fallback for browsers without backdrop-filter (Firefox <103, etc.) */
+  background: rgba(18, 18, 24, 0.97);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 2rem 1.6rem;
   box-shadow: var(--fletea-shadow-form);
+}
+
+/* Glass effect only when supported (Chrome 76+, Safari 9+, Firefox 103+) */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .form-card {
+    background: rgba(18, 18, 24, 0.92);
+    backdrop-filter: blur(var(--fletea-blur-glass));
+    -webkit-backdrop-filter: blur(var(--fletea-blur-glass));
+  }
 }
 
 .form-overline {
@@ -676,14 +683,24 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(5, 5, 9, 0.72);
-  backdrop-filter: blur(var(--fletea-blur-modal));
-  -webkit-backdrop-filter: blur(var(--fletea-blur-modal));
+  /* Solid fallback for browsers without backdrop-filter */
+  background: rgba(5, 5, 9, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   animation: fleteaModalFadeIn 0.25s ease;
+  /* Allow scroll inside backdrop on tiny screens if modal exceeds viewport */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .quote-modal-backdrop {
+    background: rgba(5, 5, 9, 0.72);
+    backdrop-filter: blur(var(--fletea-blur-modal));
+    -webkit-backdrop-filter: blur(var(--fletea-blur-modal));
+  }
 }
 
 .quote-modal {
@@ -951,6 +968,70 @@
 }
 
 /* ============================================
+   GLASS / BLUR effects — only enable when supported
+   ============================================ */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .trust-chip {
+    background: rgba(18, 18, 24, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .social-toggle {
+    background: rgba(18, 18, 24, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
+
+/* ============================================
+   HOVER GATING — only apply hover transforms on
+   devices with a real hover capability (mouse).
+   On touch devices, :hover sticks after tap and
+   leaves buttons in elevated state.
+   ============================================ */
+@media (hover: none) {
+  .btn-primary:hover:not(:disabled),
+  .btn-success:hover:not(:disabled),
+  .social-bubble:hover,
+  .quote-modal__close:hover {
+    transform: none !important;
+    box-shadow: var(--fletea-shadow-cta);
+  }
+  .social-bubble:hover {
+    box-shadow: var(--fletea-shadow-bubble);
+  }
+}
+
+/* Active feedback for all touch / mouse — clearly indicates tap */
+.btn-primary:active:not(:disabled),
+.btn-success:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.social-bubble:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   KEYBOARD FOCUS — visible ring for a11y,
+   no ring on click (mouse) — :focus-visible only.
+   ============================================ */
+.btn-primary:focus-visible,
+.btn-success:focus-visible,
+.quote-modal__close:focus-visible,
+.social-bubble:focus-visible,
+.trust-chip:focus-visible,
+.social-toggle:focus-visible,
+.page-logo:focus-visible {
+  outline: 3px solid var(--fletea-accent);
+  outline-offset: 3px;
+}
+
+.form-group input:focus-visible {
+  outline: none; /* the existing border + box-shadow IS the focus ring */
+}
+
+/* ============================================
    ACCESSIBILITY — reduced motion
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -997,5 +1078,41 @@
 
   .quote-row + .quote-row {
     border-top-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* ============================================
+   FORCED COLORS — Windows high-contrast mode
+   ============================================ */
+@media (forced-colors: active) {
+  .btn-primary,
+  .btn-success {
+    border: 1px solid ButtonBorder;
+    background: ButtonFace;
+    color: ButtonText;
+    box-shadow: none;
+  }
+  .form-group input {
+    border: 1px solid Field;
+    background: Field;
+    color: FieldText;
+    box-shadow: none;
+  }
+  .form-card,
+  .quote-modal,
+  .trust-chip,
+  .social-toggle {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+}
+
+/* ============================================
+   HOVER on inputs (browsers that support it) —
+   subtle border highlight before focus
+   ============================================ */
+@media (hover: hover) {
+  .form-group input:hover:not(:focus) {
+    border-color: rgba(255, 255, 255, 0.18);
   }
 }

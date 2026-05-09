@@ -5,17 +5,65 @@
   <meta charset="utf-8">
   <title>Fletea - Fletes y Mudanzas</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0f">
+
+  <!-- Viewport: cover the safe-area on notched devices, prevent forced zoom -->
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+
+  <!-- Theme color (mobile browser chrome) -->
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: light)">
+
+  <!-- iOS Safari: PWA-like fullscreen + dark status bar -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fletea">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Don't auto-detect phone numbers / emails / addresses (we control formatting) -->
+  <meta name="format-detection" content="telephone=no, address=no, email=no">
+
+  <!-- IE/Edge legacy: use latest engine, no compat mode -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- SEO basics -->
+  <meta name="description"
+        content="Fletea — fletes y mudanzas en Buenos Aires. Cotizá al instante y reservá con seña en minutos.">
+  <meta name="robots" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Open Graph / social share -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Fletea — Fletes y Mudanzas">
+  <meta property="og:description" content="Cotizá al instante. Reservá en minutos.">
+  <meta property="og:locale" content="es_AR">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/logo-fletea.png">
+
+  <!-- Preconnect to third-party origins for faster initial paint -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://maps.googleapis.com">
+  <link rel="preconnect" href="https://sdk.mercadopago.com">
+
+  <!-- Inter font with display=swap to prevent invisible text on slow networks -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <script src="https://sdk.mercadopago.com/js/v2"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=__GOOGLE_MAPS_API_KEY__&libraries=places"
+
+  <!-- MercadoPago + Google Maps loaded async; the app polls for `google` until ready -->
+  <script src="https://sdk.mercadopago.com/js/v2" defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=__GOOGLE_MAPS_API_KEY__&libraries=places&loading=async"
     async defer></script>
 </head>
 
 <body>
   <app-root></app-root>
+  <noscript>
+    <div style="padding:2rem;font-family:sans-serif;color:#16213e;text-align:center">
+      Para usar Fletea necesitás activar JavaScript en tu navegador.
+    </div>
+  </noscript>
 </body>
 
 </html>

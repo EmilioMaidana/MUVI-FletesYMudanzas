@@ -112,6 +112,19 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
       transform: scale(0.97);
     }
 
+    /* Disable hover on touch devices */
+    @media (hover: none) {
+      .btn-volver:hover {
+        background: var(--accent);
+      }
+    }
+
+    /* Keyboard focus ring */
+    .btn-volver:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
     /* Mobile */
     @media (max-width: 768px) {
       .resultado-container {

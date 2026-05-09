@@ -1,10 +1,11 @@
 <main class="fletea-landing">
 
   <!-- ===== LOADER OVERLAY — full-bleed until ≥32 frames buffered ===== -->
-  <div class="loader-overlay" *ngIf="!imagesLoaded">
+  <div class="loader-overlay" *ngIf="!imagesLoaded" role="status" aria-live="polite">
     <div class="loader-content">
       <div class="loader-logo">
-        <img src="assets/logo-fletea.png" alt="Fletea" class="loader-isotype">
+        <img src="assets/logo-fletea.png" alt="" aria-hidden="true"
+             class="loader-isotype" decoding="sync" fetchpriority="high">
       </div>
       <h2 class="loader-brand">FLETEA</h2>
       <div class="loader-bar">
@@ -21,7 +22,8 @@
      class="page-logo"
      (click)="onPageLogoClick($event)"
      aria-label="Volver al inicio">
-    <img src="assets/logo-fletea.png" alt="Fletea" class="page-logo__img">
+    <img src="assets/logo-fletea.png" alt="Fletea" class="page-logo__img"
+         decoding="async" fetchpriority="high">
     <span class="page-logo__wordmark">FLETEA</span>
   </a>
 
@@ -73,10 +75,10 @@
       <a *ngFor="let s of socialLinks"
          [href]="s.href"
          target="_blank"
-         rel="noreferrer"
+         rel="noopener noreferrer"
          [attr.aria-label]="s.name"
          class="social-bubble">
-        <img [src]="s.img" [alt]="s.name">
+        <img [src]="s.img" [alt]="s.name" loading="lazy" decoding="async" draggable="false">
       </a>
     </div>
   </div>
@@ -126,7 +128,12 @@
             <input id="nombre" type="text"
                    [(ngModel)]="formData.nombreCompleto"
                    placeholder="Tu nombre completo"
-                   autocomplete="name">
+                   autocomplete="name"
+                   autocapitalize="words"
+                   autocorrect="off"
+                   spellcheck="false"
+                   maxlength="80"
+                   enterkeyhint="next">
           </div>
 
           <div class="form-group">
@@ -134,7 +141,12 @@
             <input id="telefono" type="tel"
                    [(ngModel)]="formData.telefono"
                    placeholder="11-XXXX-XXXX"
-                   autocomplete="tel">
+                   autocomplete="tel"
+                   inputmode="tel"
+                   autocorrect="off"
+                   spellcheck="false"
+                   maxlength="20"
+                   enterkeyhint="next">
           </div>
 
           <div class="form-group">
@@ -142,31 +154,52 @@
             <input id="email" type="email"
                    [(ngModel)]="formData.email"
                    placeholder="tu@email.com"
-                   autocomplete="email">
+                   autocomplete="email"
+                   inputmode="email"
+                   autocapitalize="off"
+                   autocorrect="off"
+                   spellcheck="false"
+                   maxlength="120"
+                   enterkeyhint="next">
           </div>
 
           <div class="form-group">
             <label for="origen">Origen</label>
             <input #origenInput id="origen" type="text"
                    [(ngModel)]="formData.origen"
-                   placeholder="¿Desde dónde retiramos?">
+                   placeholder="¿Desde dónde retiramos?"
+                   autocomplete="street-address"
+                   autocapitalize="sentences"
+                   autocorrect="off"
+                   spellcheck="false"
+                   maxlength="200"
+                   enterkeyhint="next">
           </div>
 
           <div class="form-group">
             <label for="destino">Destino</label>
             <input #destinoInput id="destino" type="text"
                    [(ngModel)]="formData.destino"
-                   placeholder="¿A dónde llevamos?">
+                   placeholder="¿A dónde llevamos?"
+                   autocomplete="street-address"
+                   autocapitalize="sentences"
+                   autocorrect="off"
+                   spellcheck="false"
+                   maxlength="200"
+                   enterkeyhint="next">
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="fecha">Fecha</label>
-              <input id="fecha" type="date" [(ngModel)]="formData.fecha">
+              <input id="fecha" type="date"
+                     [(ngModel)]="formData.fecha"
+                     [min]="todayIso">
             </div>
             <div class="form-group">
               <label for="hora">Hora</label>
-              <input id="hora" type="time" [(ngModel)]="formData.hora">
+              <input id="hora" type="time"
+                     [(ngModel)]="formData.hora">
             </div>
           </div>
 

@@ -161,6 +161,9 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   overflow-x: hidden;
+  /* Tell the UA that the page supports both color schemes — improves
+     native form control rendering on iOS Safari + Chrome */
+  color-scheme: dark light;
 }
 
 body {
@@ -175,6 +178,37 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   -webkit-overflow-scrolling: touch;
+  /* Stable scrollbar gutter — prevents layout shift when modal closes
+     and scrollbar reappears */
+  scrollbar-gutter: stable;
+  /* Prevent iOS rubber-band overscroll from revealing background */
+  overscroll-behavior-y: none;
+}
+
+/* Firefox scrollbar styling — thin and accent-colored */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+/* Webkit scrollbar — Chrome / Safari / Edge */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 @supports not (overflow-x: clip) {
@@ -183,9 +217,16 @@ body {
   }
 }
 
-img, canvas {
+img, canvas, video, svg {
   display: block;
   max-width: 100%;
+}
+
+img {
+  /* Prevent broken-image alt text from cluttering layout */
+  font-style: italic;
+  /* Prevent images from being draggable by default (cleaner UX) */
+  -webkit-user-drag: none;
 }
 
 a {
@@ -195,14 +236,87 @@ a {
 
 button {
   font-family: inherit;
+  /* Reset default browser button styling that varies cross-browser */
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
 }
 
-a, button, input, textarea, select {
+input, textarea, select {
+  font-family: inherit;
+}
+
+a, button, input, textarea, select, [role="button"] {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* Disable double-tap zoom on interactive elements */
 }
 
 h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
+  /* Avoid text overflowing its container on long single words / URLs */
+  overflow-wrap: break-word;
+}
+
+/* Reduce motion globally if the user prefers it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ensure number inputs don't show spinner buttons inconsistently — they vary
+   between browsers and we don't use them anyway */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Native autofill in WebKit shows a yellow background — match our theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f5f5f5;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.04) inset;
+  caret-color: #f5f5f5;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Date / time picker icons in WebKit — invert for dark theme */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.8) opacity(0.7);
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(0.95) opacity(1);
+}
+
+/* Skip-link for keyboard / screen reader users — hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--fletea-accent);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  z-index: 99999;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 /* ============================================
