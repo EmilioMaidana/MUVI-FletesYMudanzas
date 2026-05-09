@@ -1,5 +1,21 @@
 <main class="fletea-landing">
 
+  <!-- =====================================================
+       SEO — encabezados + descripción visible para Googlebot
+       Visualmente ocultos (.visually-hidden) pero accesibles a
+       screen readers y crawlers. Aportan contexto semántico
+       sin romper la estética del cover.
+       ===================================================== -->
+  <header class="visually-hidden">
+    <h1>Fletea — Fletes y Mudanzas en Buenos Aires al Instante</h1>
+    <p>
+      Servicio de fletes, mini fletes y mudanzas en CABA y Gran Buenos Aires.
+      Cotizá tu flete online al instante, reservá con seña por MercadoPago y
+      mudate el mismo día. Transporte de cargas, fletes urgentes, fletes
+      baratos y mudanzas residenciales.
+    </p>
+  </header>
+
   <!-- ===== LOADER OVERLAY — full-bleed until ≥32 frames buffered ===== -->
   <div class="loader-overlay" *ngIf="!imagesLoaded" role="status" aria-live="polite">
     <div class="loader-content">
@@ -94,14 +110,15 @@
 
       <!-- ===== COVER OVERLAY — fades on scroll via CSS vars ===== -->
 
-      <!-- Brand mark (top center): "FLETES Y MUDANZAS · AL INSTANTE" -->
+      <!-- Brand mark (top center): "FLETES Y MUDANZAS · AL INSTANTE"
+           Es la tagline pública — usamos <p> con keywords claras. -->
       <div class="cover-brand-mark">
-        <span>Fletes y mudanzas · al instante</span>
+        <p>Fletes y mudanzas · al instante</p>
       </div>
 
-      <!-- Title block (centered) -->
+      <!-- Title block (centered) — h2 visible (el h1 SEO está en <header>) -->
       <div class="cover-title-block">
-        <h1 class="cover-title">¿Necesitás un flete?</h1>
+        <h2 class="cover-title">¿Necesitás un flete?</h2>
         <p class="cover-subtitle">Cotizá al instante · Reservá en minutos</p>
       </div>
 
@@ -120,10 +137,14 @@
       </div>
 
       <!-- ===== FORM CARD — appears at scroll ≥ 92% ===== -->
-      <div class="form-overlay" [class.form-overlay--visible]="showForm">
+      <section class="form-overlay" [class.form-overlay--visible]="showForm"
+               aria-label="Formulario de cotización de flete">
         <div class="form-card">
           <div class="form-overline">Tu flete · paso 1 de 2</div>
-          <h2 class="form-title">Cotizá tu flete</h2>
+          <h2 class="form-title">
+            <span class="visually-hidden">Cotizá tu mini flete o mudanza online en CABA y GBA — </span>
+            Cotizá tu flete
+          </h2>
 
           <div class="form-group">
             <label for="nombre">Nombre completo</label>
@@ -213,7 +234,7 @@
 
           <div class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</div>
         </div>
-      </div>
+      </section>
 
     </div>
   </section>

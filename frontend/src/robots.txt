@@ -1,0 +1,23 @@
+# =====================================================
+# Fletea — robots.txt
+# https://www.fletea.com.ar/robots.txt
+# =====================================================
+
+User-agent: *
+Allow: /
+
+# Páginas que NO queremos que Google indexe
+Disallow: /admin
+Disallow: /admin/
+Disallow: /pago-exitoso
+Disallow: /pago-fallido
+Disallow: /pago-pendiente
+
+# Crawl-delay opcional (segundos entre requests).
+# Comentado: Googlebot lo ignora; útil sólo para bots agresivos.
+# Crawl-delay: 1
+
+# =====================================================
+# Sitemap principal
+# =====================================================
+Sitemap: https://www.fletea.com.ar/sitemap.xml

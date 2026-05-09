@@ -1,57 +1,241 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 
 <head>
   <meta charset="utf-8">
-  <title>Fletea - Fletes y Mudanzas</title>
   <base href="/">
 
-  <!-- Viewport: cover the safe-area on notched devices, prevent forced zoom -->
+  <!-- =====================================================
+       SEO — Title + descripción (palabras clave de alto tráfico)
+       ===================================================== -->
+  <title>Fletea | Fletes y Mudanzas en Buenos Aires al Instante · CABA y GBA</title>
+  <meta name="description"
+        content="Fletes, mini fletes y mudanzas en Buenos Aires (CABA y GBA). Cotizá tu flete al instante online, reservá con seña y mudate hoy mismo. Transporte de cargas seguro y barato.">
+  <meta name="keywords"
+        content="flete, fletes, mudanzas, mini fletes, fletes baratos, fletes urgentes, fletes CABA, fletes GBA, mudanzas Buenos Aires, mudanzas CABA, transporte de cargas, flete online, cotizar flete, mudanza al instante, flete económico">
+  <meta name="author" content="Fletea">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Canonical: evita penalizaciones por contenido duplicado -->
+  <link rel="canonical" href="https://www.fletea.com.ar/">
+  <link rel="alternate" hreflang="es-AR" href="https://www.fletea.com.ar/">
+  <link rel="alternate" hreflang="es" href="https://www.fletea.com.ar/">
+  <link rel="alternate" hreflang="x-default" href="https://www.fletea.com.ar/">
+
+  <!-- =====================================================
+       Viewport + theming (mobile UX)
+       ===================================================== -->
   <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
-
-  <!-- Theme color (mobile browser chrome) -->
   <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: light)">
-
-  <!-- iOS Safari: PWA-like fullscreen + dark status bar -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Fletea">
   <meta name="mobile-web-app-capable" content="yes">
-
-  <!-- Don't auto-detect phone numbers / emails / addresses (we control formatting) -->
   <meta name="format-detection" content="telephone=no, address=no, email=no">
-
-  <!-- IE/Edge legacy: use latest engine, no compat mode -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <!-- SEO basics -->
-  <meta name="description"
-        content="Fletea — fletes y mudanzas en Buenos Aires. Cotizá al instante y reservá con seña en minutos.">
-  <meta name="robots" content="index, follow">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-
-  <!-- Open Graph / social share -->
+  <!-- =====================================================
+       Open Graph — preview en WhatsApp / Facebook / LinkedIn
+       ===================================================== -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Fletea — Fletes y Mudanzas">
-  <meta property="og:description" content="Cotizá al instante. Reservá en minutos.">
+  <meta property="og:site_name" content="Fletea">
+  <meta property="og:title" content="Fletea | Fletes y Mudanzas en Buenos Aires al Instante">
+  <meta property="og:description"
+        content="Cotizá tu flete o mudanza al instante. Mini fletes, mudanzas y transporte de cargas en CABA y GBA con reserva online y seña segura.">
+  <meta property="og:url" content="https://www.fletea.com.ar/">
   <meta property="og:locale" content="es_AR">
+  <meta property="og:image" content="https://www.fletea.com.ar/assets/logo-fletea.png">
+  <meta property="og:image:secure_url" content="https://www.fletea.com.ar/assets/logo-fletea.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fletea — Fletes y mudanzas al instante en Buenos Aires">
 
-  <!-- Favicon -->
+  <!-- =====================================================
+       Twitter Cards
+       ===================================================== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fletea | Fletes y Mudanzas en Buenos Aires al Instante">
+  <meta name="twitter:description"
+        content="Cotizá tu flete o mudanza online al instante. CABA y GBA · Reservá con seña.">
+  <meta name="twitter:image" content="https://www.fletea.com.ar/assets/logo-fletea.png">
+  <meta name="twitter:image:alt" content="Fletea — Fletes y mudanzas al instante">
+
+  <!-- =====================================================
+       JSON-LD: Organization (identidad de la marca)
+       ===================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://www.fletea.com.ar/#organization",
+    "name": "Fletea",
+    "alternateName": ["Fletea Fletes", "Fletea Mudanzas"],
+    "url": "https://www.fletea.com.ar/",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.fletea.com.ar/assets/logo-fletea.png",
+      "width": 512,
+      "height": 512
+    },
+    "image": "https://www.fletea.com.ar/assets/logo-fletea.png",
+    "email": "fleteaflete@gmail.com",
+    "telephone": "+54-11-3430-2227",
+    "sameAs": [
+      "https://www.instagram.com/fletea",
+      "https://www.facebook.com/fletea",
+      "https://www.tiktok.com/@fletea",
+      "https://wa.me/541134302227"
+    ]
+  }
+  </script>
+
+  <!-- =====================================================
+       JSON-LD: WebSite (habilita el "search box" en SERP)
+       ===================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://www.fletea.com.ar/#website",
+    "url": "https://www.fletea.com.ar/",
+    "name": "Fletea",
+    "description": "Fletes, mini fletes y mudanzas en Buenos Aires al instante.",
+    "publisher": { "@id": "https://www.fletea.com.ar/#organization" },
+    "inLanguage": "es-AR"
+  }
+  </script>
+
+  <!-- =====================================================
+       JSON-LD: MovingCompany / LocalBusiness (paquete de mapas)
+       ===================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    "@id": "https://www.fletea.com.ar/#business",
+    "name": "Fletea",
+    "description": "Servicio de fletes, mini fletes y mudanzas en Buenos Aires (CABA y GBA). Cotización online al instante, reserva con seña y traslado el mismo día.",
+    "url": "https://www.fletea.com.ar/",
+    "telephone": "+54-11-3430-2227",
+    "email": "fleteaflete@gmail.com",
+    "image": "https://www.fletea.com.ar/assets/logo-fletea.png",
+    "logo": "https://www.fletea.com.ar/assets/logo-fletea.png",
+    "priceRange": "$$",
+    "currenciesAccepted": "ARS",
+    "paymentAccepted": "Cash, Credit Card, Debit Card, MercadoPago",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Adolfo Alsina 2034",
+      "addressLocality": "Ciudad Autónoma de Buenos Aires",
+      "addressRegion": "CABA",
+      "postalCode": "C1090",
+      "addressCountry": "AR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -34.6157,
+      "longitude": -58.3914
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Ciudad Autónoma de Buenos Aires"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Gran Buenos Aires"
+      },
+      {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": -34.6037,
+          "longitude": -58.3816
+        },
+        "geoRadius": "60000"
+      }
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/fletea",
+      "https://www.facebook.com/fletea",
+      "https://www.tiktok.com/@fletea"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de Fletea",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Mini fletes",
+            "description": "Mini fletes para cargas livianas y traslados rápidos en CABA y GBA.",
+            "areaServed": "Buenos Aires, Argentina"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Mudanzas",
+            "description": "Mudanzas residenciales y comerciales en Buenos Aires con cotización al instante.",
+            "areaServed": "Buenos Aires, Argentina"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Transporte de cargas",
+            "description": "Transporte de cargas y muebles en Buenos Aires, mismo día.",
+            "areaServed": "Buenos Aires, Argentina"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Fletes urgentes",
+            "description": "Fletes urgentes y al instante en CABA y conurbano bonaerense.",
+            "areaServed": "Buenos Aires, Argentina"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- =====================================================
+       Favicons
+       ===================================================== -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="apple-touch-icon" href="assets/logo-fletea.png">
 
-  <!-- Preconnect to third-party origins for faster initial paint -->
+  <!-- =====================================================
+       Performance: preconnect a orígenes terceros
+       ===================================================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://maps.googleapis.com">
   <link rel="preconnect" href="https://sdk.mercadopago.com">
 
-  <!-- Inter font with display=swap to prevent invisible text on slow networks -->
+  <!-- Inter font con display=swap para evitar texto invisible en redes lentas -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-  <!-- MercadoPago + Google Maps loaded async; the app polls for `google` until ready -->
+  <!-- MercadoPago + Google Maps cargados async; la app pollea `google` hasta que está listo -->
   <script src="https://sdk.mercadopago.com/js/v2" defer></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=__GOOGLE_MAPS_API_KEY__&libraries=places&loading=async"
     async defer></script>
@@ -62,6 +246,10 @@
   <noscript>
     <div style="padding:2rem;font-family:sans-serif;color:#16213e;text-align:center">
       Para usar Fletea necesitás activar JavaScript en tu navegador.
+      <br><br>
+      Fletea — Fletes y mudanzas en Buenos Aires al instante.
+      Llamanos al <a href="tel:+541134302227">+54 11 3430 2227</a> o escribinos a
+      <a href="mailto:fleteaflete@gmail.com">fleteaflete@gmail.com</a>.
     </div>
   </noscript>
 </body>

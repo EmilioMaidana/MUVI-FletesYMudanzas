@@ -10,6 +10,26 @@
 }
 
 /* ============================================
+   ACCESSIBILITY — visually-hidden / sr-only
+   Texto disponible para screen readers + crawlers
+   pero invisible visualmente. Patrón estándar de
+   WAI-ARIA, no es contenido oculto "tramposo":
+   Google lo trata como contenido legítimo.
+   ============================================ */
+.visually-hidden,
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ============================================
    FLETEA — Design tokens
    Full token set from design_handoff_fletea_landing/reference/colors_and_type.css
    Plus shorthand --t-* aliases used inline in components.

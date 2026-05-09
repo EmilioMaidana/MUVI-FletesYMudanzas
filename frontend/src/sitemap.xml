@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemaps-image/1.1">
+
+  <!-- Página principal — máxima prioridad -->
+  <url>
+    <loc>https://www.fletea.com.ar/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es-AR" href="https://www.fletea.com.ar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.fletea.com.ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fletea.com.ar/"/>
+    <image:image>
+      <image:loc>https://www.fletea.com.ar/assets/logo-fletea.png</image:loc>
+      <image:title>Fletea — Fletes y Mudanzas en Buenos Aires</image:title>
+      <image:caption>Logo de Fletea, servicio de fletes y mudanzas al instante en Buenos Aires</image:caption>
+    </image:image>
+  </url>
+
+</urlset>
