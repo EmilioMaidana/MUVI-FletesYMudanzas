@@ -8,7 +8,7 @@
   "trailingSlash": false,
 
   "rewrites": [
-    { "source": "/((?!assets/|webp/|.*\\..*).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
 
   "headers": [
