@@ -160,13 +160,11 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   // ====== TrustChip handlers ======
   onTrustChipClick(e: Event) {
+    e.preventDefault();
     if (this.isMobile && this.openPanel !== 'chip') {
-      e.preventDefault();
       this.openPanel = 'chip';
-    }
-    // On desktop: anchor click (href="#") — let it pass; we prevent it via no-op handler if expanded
-    else {
-      e.preventDefault();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
