@@ -20,13 +20,16 @@ public class ReservaService {
     private final ReservaRepository reservaRepository;
     private final CotizadorService cotizadorService;
     private final MercadoPagoService mercadoPagoService;
+    private final EmailService emailService;
 
     public ReservaService(ReservaRepository reservaRepository,
                           CotizadorService cotizadorService,
-                          MercadoPagoService mercadoPagoService) {
+                          MercadoPagoService mercadoPagoService,
+                          EmailService emailService) {
         this.reservaRepository = reservaRepository;
         this.cotizadorService = cotizadorService;
         this.mercadoPagoService = mercadoPagoService;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -52,6 +55,9 @@ public class ReservaService {
         reserva.setMercadoPagoPreferenceId(preference.getId());
         reserva = reservaRepository.save(reserva);
 
+        // Email de cotización al cliente (async — no bloquea la respuesta)
+        emailService.enviarResumenReserva(reserva, preference.getInitPoint());
+
         return new ReservaResponse(reserva.getId(), preference.getInitPoint(), reserva.getMontoSena());
     }
 
@@ -63,7 +69,10 @@ public class ReservaService {
 
         reserva.setEstado(EstadoReserva.RESERVADO);
         reserva.setMercadoPagoPaymentId(paymentId);
-        reservaRepository.save(reserva);
+        reserva = reservaRepository.save(reserva);
+
+        // Comprobante de pago al cliente (async — no bloquea el webhook)
+        emailService.enviarComprobantePago(reserva);
     }
 
     public List<Reserva> listarTodas() {

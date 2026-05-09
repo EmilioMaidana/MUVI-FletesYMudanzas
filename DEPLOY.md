@@ -162,26 +162,72 @@ Los services tienen `restart: unless-stopped`, así que si reiniciás el VPS, to
 
 ---
 
-## 4. MercadoPago
+## 4. Email (Gmail SMTP)
 
-### 4.1 Webhook
+### 4.1 Generar una App Password de Gmail
+
+> Gmail bloquea el acceso con tu contraseña normal desde apps de terceros.
+> Necesitás una **Contraseña de aplicación** de 16 caracteres.
+
+1. Entrá a tu cuenta Google con `fleteaflete@gmail.com`
+2. **Google Account → Seguridad → Verificación en 2 pasos** → activala si no la tenés
+3. Volvé a **Seguridad → Contraseñas de aplicación**
+   - Si no aparece el link, buscá directamente: https://myaccount.google.com/apppasswords
+4. En "Seleccionar aplicación" elegí **Otra (nombre personalizado)** → escribí `Fletea Backend`
+5. Copiá la clave de 16 caracteres que genera Google (ej. `abcd efgh ijkl mnop`)
+   - **Sin espacios** al pegarlo en el `.env`
+
+### 4.2 Configurar en el VPS
+
+En tu `.env`:
+```bash
+MAIL_USERNAME=fleteaflete@gmail.com
+MAIL_PASSWORD=abcdefghijklmnop    # app password sin espacios
+```
+
+Después de editar el `.env`, reiniciá el backend:
+```bash
+docker compose -f docker-compose.prod.yml up -d backend
+```
+
+### 4.3 Verificar que los emails salen
+
+```bash
+docker compose -f docker-compose.prod.yml logs -f backend | grep -i mail
+```
+
+Al crear una reserva deberías ver:
+```
+Email cotización enviado a cliente@ejemplo.com (reserva #1)
+```
+
+Al confirmar un pago vía webhook:
+```
+Comprobante enviado a cliente@ejemplo.com (reserva #1)
+```
+
+---
+
+## 5. MercadoPago
+
+### 5.1 Webhook
 En tu app de MercadoPago (https://www.mercadopago.com.ar/developers/panel):
 - **URL de notificaciones**: `https://api.fletea.com.ar/api/payments/webhook`
 - Eventos: `payment`
 
-### 4.2 Auto-return
+### 5.2 Auto-return
 Como `FLETEA_FRONTEND_URL=https://www.fletea.com.ar` ya **no** es localhost, el `MercadoPagoService` activa automáticamente `autoReturn=approved`. El usuario será redirigido tras el pago a:
 - `https://www.fletea.com.ar/pago-exitoso`
 - `https://www.fletea.com.ar/pago-fallido`
 - `https://www.fletea.com.ar/pago-pendiente`
 
-### 4.3 Test en sandbox
+### 5.3 Test en sandbox
 Usá las tarjetas de prueba de MercadoPago Argentina antes del go-live:
 https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/additional-content/test-cards
 
 ---
 
-## 5. Operación
+## 6. Operación
 
 ### Logs en vivo
 ```bash
@@ -213,7 +259,7 @@ Caddy lo hace solo (renueva ~30 días antes del expire). No requiere acción man
 
 ---
 
-## 6. Rollback rápido
+## 7. Rollback rápido
 
 ### Frontend
 En Vercel → Deployments → encontrá el último deploy bueno → "Promote to Production".
@@ -227,7 +273,7 @@ docker compose -f docker-compose.prod.yml up -d --build backend
 
 ---
 
-## 7. Checklist pre-go-live
+## 8. Checklist pre-go-live
 
 - [ ] DNS A/CNAME propagados (`dig` confirma)
 - [ ] Vercel project con dominios verificados y `GOOGLE_MAPS_API_KEY` seteada
@@ -238,4 +284,7 @@ docker compose -f docker-compose.prod.yml up -d --build backend
 - [ ] MercadoPago webhook configurado con la URL del backend
 - [ ] Probada una reserva end-to-end con tarjeta de test de MP
 - [ ] `ADMIN_PASSWORD` y `JWT_SECRET` cambiados de los defaults
+- [ ] Gmail App Password generada y `MAIL_USERNAME` / `MAIL_PASSWORD` seteados en `.env`
+- [ ] Email de cotización recibido al crear una reserva de prueba
+- [ ] Email de comprobante recibido al aprobar un pago de test
 - [ ] Backup de Postgres programado
