@@ -40,6 +40,9 @@ public class EmailService {
     @Value("${spring.mail.username:}")
     private String fromAddress;
 
+    @Value("${admin.email:}")
+    private String adminEmail;
+
     public EmailService(ObjectProvider<JavaMailSender> mailSenderProvider) {
         this.mailSenderProvider = mailSenderProvider;
     }
@@ -86,6 +89,27 @@ public class EmailService {
             log.info("Comprobante enviado a {} (reserva #{})", reserva.getEmail(), reserva.getId());
         } catch (Exception e) {
             log.error("Error enviando comprobante (reserva #{}): {}", reserva.getId(), e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Notificación interna enviada al admin cuando se acredita una seña.
+     */
+    @Async
+    public void enviarNotificacionAdminPagoRecibido(Reserva reserva) {
+        JavaMailSender sender = mailSenderProvider.getIfAvailable();
+        if (sender == null) return;
+
+        String to = adminEmail != null && !adminEmail.isBlank() ? adminEmail : fromAddress;
+        if (to == null || to.isBlank()) return;
+
+        try {
+            String subject = "🔔 NUEVO PAGO RECIBIDO: Flete #" + reserva.getId() + " - " + reserva.getNombreCompleto();
+            String html = buildAdminNotificationHtml(reserva);
+            send(sender, to, subject, html);
+            log.info("Notificación a admin enviada a {}", to);
+        } catch (Exception e) {
+            log.error("Error enviando notificación a admin (reserva #{}): {}", reserva.getId(), e.getMessage(), e);
         }
     }
 
@@ -278,6 +302,26 @@ public class EmailService {
                 footer()
             ) +
 
+            "</body></html>";
+    }
+
+    private String buildAdminNotificationHtml(Reserva r) {
+        String fecha = r.getFecha() != null ? capitalize(DATE_FMT.format(r.getFecha())) : "—";
+        String hora  = r.getHora()  != null ? TIME_FMT.format(r.getHora()) + " hs" : "—";
+
+        return "<!DOCTYPE html>" +
+            "<html lang=\"es\"><body>" +
+            "<h2 style=\"color:#4ade80;\">¡Nuevo cliente confirmado! 🚚</h2>" +
+            "<p>El cliente <b>" + esc(r.getNombreCompleto()) + "</b> ha abonado la seña de <b>" + formatPesos(r.getMontoSena()) + "</b>.</p>" +
+            "<ul>" +
+            "<li><b>Teléfono:</b> " + esc(r.getTelefono()) + "</li>" +
+            "<li><b>Email:</b> " + esc(r.getEmail()) + "</li>" +
+            "<li><b>Origen:</b> " + esc(r.getOrigen()) + "</li>" +
+            "<li><b>Destino:</b> " + esc(r.getDestino()) + "</li>" +
+            "<li><b>Fecha:</b> " + fecha + " a las " + hora + "</li>" +
+            "<li><b>Costo Total:</b> " + formatPesos(r.getCostoTotal()) + "</li>" +
+            "</ul>" +
+            "<p><a href=\"https://www.fletea.com.ar/admin\">Ver en el Panel de Administración</a></p>" +
             "</body></html>";
     }
 

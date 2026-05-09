@@ -73,6 +73,7 @@ public class ReservaService {
 
         // Comprobante de pago al cliente (async — no bloquea el webhook)
         emailService.enviarComprobantePago(reserva);
+        emailService.enviarNotificacionAdminPagoRecibido(reserva);
     }
 
     public List<Reserva> listarTodas() {
