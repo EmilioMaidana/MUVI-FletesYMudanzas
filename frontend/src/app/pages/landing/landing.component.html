@@ -105,8 +105,10 @@
         <p class="cover-subtitle">Cotizá al instante · Reservá en minutos</p>
       </div>
 
-      <!-- Scroll cue (bottom center) -->
-      <div class="cover-cue">
+      <!-- Scroll cue (bottom center) — clickable: smooth-scrolls to form -->
+      <div class="cover-cue" (click)="scrollToForm()" role="button" tabindex="0"
+           aria-label="Scrollear hasta el formulario de cotización"
+           (keydown.enter)="scrollToForm()" (keydown.space)="scrollToForm()">
         <span class="cover-cue__text">Scrolleá para cotizar</span>
         <div class="cover-cue__arrow">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -236,6 +238,9 @@
 
       <div class="quote-modal__overline">Tu cotización · paso 2 de 2</div>
       <h2 class="quote-modal__title">Listo, tu flete</h2>
+
+      <!-- Mapa con la ruta origen → destino -->
+      <div #routeMap class="quote-map" aria-label="Mapa del recorrido"></div>
 
       <div class="quote-row">
         <span>Distancia total</span>

@@ -36,6 +36,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('scrollContainer') scrollContainerRef!: ElementRef<HTMLElement>;
   @ViewChild('origenInput') origenInput!: ElementRef<HTMLInputElement>;
   @ViewChild('destinoInput') destinoInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('routeMap') routeMapRef!: ElementRef<HTMLDivElement>;
 
   // --- Loader state ---
   loadingProgress = 0;
@@ -178,6 +179,15 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   // ====== SocialBar handler ======
   onSocialToggle() {
     this.openPanel = this.openPanel === 'social' ? null : 'social';
+  }
+
+  // ====== Scroll to form (from CTA cue) ======
+  scrollToForm() {
+    const container = this.scrollContainerRef.nativeElement;
+    const scrollableHeight = container.offsetHeight - window.innerHeight;
+    // Scroll to 93% — just past the form visibility threshold (92%)
+    const targetScroll = container.offsetTop + scrollableHeight * 0.93;
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' });
   }
 
   // ====== QuoteModal close ======
@@ -466,6 +476,67 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // ====== Route Map (inside quote modal) ======
+  private initRouteMap() {
+    if (!this.routeMapRef || typeof google === 'undefined' || !google.maps) return;
+
+    const mapEl = this.routeMapRef.nativeElement;
+    if (!mapEl) return;
+
+    // Dark theme style for the map — matches Fletea brand
+    const darkStyle: any[] = [
+      { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
+      { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#2a2a3e' }] },
+      { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#333350' }] },
+      { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#3a3a5e' }] },
+      { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e1626' }] },
+      { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#1e1e3a' }] },
+      { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+      { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a40' }] },
+    ];
+
+    const map = new google.maps.Map(mapEl, {
+      zoom: 12,
+      center: { lat: -34.6037, lng: -58.3816 }, // default Buenos Aires
+      styles: darkStyle,
+      disableDefaultUI: true,
+      zoomControl: true,
+      gestureHandling: 'cooperative',
+      backgroundColor: '#0d0d0d',
+    });
+
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer({
+      map,
+      suppressMarkers: false,
+      polylineOptions: {
+        strokeColor: '#e94560',
+        strokeWeight: 4,
+        strokeOpacity: 0.9,
+      },
+      markerOptions: {
+        // Default markers with Fletea accent color
+      },
+    });
+
+    directionsService.route(
+      {
+        origin: this.formData.origen,
+        destination: this.formData.destino,
+        travelMode: google.maps.TravelMode.DRIVING,
+        region: 'ar',
+      },
+      (result: any, status: any) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsRenderer.setDirections(result);
+        }
+      }
+    );
+  }
+
   // ====== Form handlers ======
   cotizar() {
     this.errorMsg = '';
@@ -493,6 +564,8 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
         this.cargandoCotizacion = false;
         this.cotizacion = res;
         this.lockBodyScroll();
+        // Initialize route map after Angular renders the modal container
+        setTimeout(() => this.initRouteMap(), 50);
       },
       error: (err) => {
         this.cargandoCotizacion = false;
