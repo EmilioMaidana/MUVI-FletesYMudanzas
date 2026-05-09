@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   token: string;
@@ -9,7 +10,7 @@ interface LoginResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly TOKEN_KEY = 'fletea_admin_token';
-  private readonly API = '/api/auth';
+  private readonly API = `${environment.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 

@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "build": "ng build && node scripts/inject-env.js",
+    "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,

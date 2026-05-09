@@ -1,0 +1,50 @@
+# Caddy config for the VPS reverse proxy.
+#
+# Caddy auto-issues + auto-renews Let's Encrypt certificates for any
+# domain block. The only requirement: A-record for api.fletea.com.ar
+# must point to this server BEFORE starting Caddy (otherwise the
+# ACME HTTP-01 challenge will fail).
+
+{
+    # Email used for ACME / Let's Encrypt account
+    email admin@fletea.com.ar
+
+    # Production CA. To test against staging, swap to:
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+api.fletea.com.ar {
+    # Forward everything to the Spring backend container
+    reverse_proxy backend:8080 {
+        # Pass real client info so Spring can log + apply per-IP logic
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-Host {host}
+
+        # Reasonable timeouts for the backend (MercadoPago + Distance Matrix)
+        transport http {
+            dial_timeout 10s
+            response_header_timeout 30s
+        }
+    }
+
+    # Security headers (CORS is handled by Spring; these are belt-and-suspenders)
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # Caddy adds the Server header by default — remove it
+        -Server
+    }
+
+    # Gzip + zstd response compression
+    encode zstd gzip
+
+    # Compact access log to stdout (use `docker compose logs caddy` to view)
+    log {
+        output stdout
+        format console
+    }
+}
