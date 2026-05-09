@@ -16,7 +16,7 @@ declare const google: any;
 const TOTAL_FRAMES = 160;
 const LERP_FACTOR = 0.12;
 const FIRST_BATCH = 32;     // frames needed before showing the page
-const MOBILE_BP   = 600;    // px — chip/social mobile collapse breakpoint
+const MOBILE_BP = 600;    // px — chip/social mobile collapse breakpoint
 
 interface SocialLink {
   name: string;
@@ -66,10 +66,10 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
 
   // --- Social links (placeholders — replace with real handles before deploy) ---
   socialLinks: SocialLink[] = [
-    { name: 'WhatsApp',  href: 'https://wa.me/541100000000',   img: 'assets/social-whatsapp.jpeg' },
-    { name: 'Instagram', href: 'https://instagram.com/fletea', img: 'assets/social-instagram.jpeg' },
-    { name: 'Facebook',  href: 'https://facebook.com/fletea',  img: 'assets/social-facebook.jpeg' },
-    { name: 'TikTok',    href: 'https://tiktok.com/@fletea',   img: 'assets/social-tiktok.jpeg' },
+    { name: 'WhatsApp', href: 'https://wa.me/541134302227', img: 'assets/social-whatsapp.jpeg' },
+    { name: 'Instagram', href: 'https://instagram.com/fletea_ok', img: 'assets/social-instagram.jpeg' },
+    { name: 'Facebook', href: 'https://facebook.com/fletea_ok', img: 'assets/social-facebook.jpeg' },
+    { name: 'TikTok', href: 'https://tiktok.com/@fletea_ok', img: 'assets/social-tiktok.jpeg' },
   ];
 
   // --- Internal canvas state ---
@@ -111,7 +111,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   constructor(
     private apiService: ApiService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   // ====== Lifecycle ======
   ngAfterViewInit() {
@@ -350,13 +350,13 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
    * triggering Angular change detection per-frame.
    */
   private updateScrollVars(p: number) {
-    const cueOp     = Math.max(0, Math.min(1, 1 - p / 0.12));
-    const brandOp   = Math.max(0, Math.min(1, 1 - p / 0.35));
-    const titleOp   = Math.max(0, Math.min(1, 1 - p / 0.45));
+    const cueOp = Math.max(0, Math.min(1, 1 - p / 0.12));
+    const brandOp = Math.max(0, Math.min(1, 1 - p / 0.35));
+    const titleOp = Math.max(0, Math.min(1, 1 - p / 0.45));
     const titleBlur = p * 12;
     const titleScale = 1 - p * 0.04;
-    const titleY     = -p * 60;
-    const counterOp  = Math.max(0, Math.min(1, p * 4));
+    const titleY = -p * 60;
+    const counterOp = Math.max(0, Math.min(1, p * 4));
     const vignetteOp = Math.max(0.25, 1 - p * 0.6);
 
     const root = document.documentElement.style;
@@ -430,7 +430,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     const cr = cw / ch;
     let dw: number, dh: number;
     if (ir > cr) { dh = ch * SCALE; dw = dh * ir; }
-    else         { dw = cw * SCALE; dh = dw / ir; }
+    else { dw = cw * SCALE; dh = dw / ir; }
     const dx = (cw - dw) / 2;
     const dy = (ch - dh) / 2 - dh * 0.02;
     this.ctx.drawImage(img, dx, dy, dw, dh);
