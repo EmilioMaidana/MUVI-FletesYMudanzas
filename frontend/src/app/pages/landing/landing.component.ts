@@ -68,7 +68,7 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
   socialLinks: SocialLink[] = [
     { name: 'WhatsApp', href: 'https://wa.me/541134302227', img: 'assets/social-whatsapp.jpeg' },
     { name: 'Instagram', href: 'https://instagram.com/fletea_ok', img: 'assets/social-instagram.jpeg' },
-    { name: 'Facebook', href: 'https://facebook.com/fletea_ok', img: 'assets/social-facebook.jpeg' },
+    { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61589200364671', img: 'assets/social-facebook.jpeg' },
     { name: 'TikTok', href: 'https://tiktok.com/@fletea_ok', img: 'assets/social-tiktok.jpeg' },
   ];
 
